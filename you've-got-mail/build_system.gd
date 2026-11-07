@@ -1,7 +1,11 @@
 extends Node2D
 
+signal structure_added(structure: Node)
+signal structure_removed(structure: Node)
+
 @export_node_path("TileMapLayer") var ground_path: NodePath = ^"../Ground"
 @export_node_path("Button") var build_button_path: NodePath = ^"../BuildModeUI/BuildModeButton"
+@export var block_max_health: float = 100.0
 
 const BLOCK_COLOR := Color(1.0, 0.0, 0.0, 1.0)
 const PREVIEW_COLOR := Color(1.0, 0.0, 0.0, 0.45)
@@ -14,6 +18,7 @@ var hovered_cell: Vector2i
 var has_hovered_cell := false
 var used_rect: Rect2i
 var reserved_cells: Dictionary = {}
+var block_structures: Dictionary = {}
 
 @onready var ground: TileMapLayer = get_node(ground_path) as TileMapLayer
 @onready var build_button: Button = get_node_or_null(build_button_path) as Button
@@ -63,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if occupied_cells.has(cell):
 			return
-		occupied_cells[cell] = true
+		_create_block(cell)
 		queue_redraw()
 		get_viewport().set_input_as_handled()
 
@@ -79,6 +84,86 @@ func set_build_mode_enabled(enabled: bool) -> void:
 func toggle_build_mode() -> void:
 	set_build_mode_enabled(not build_mode_enabled)
 
+func get_structure_nodes() -> Array[Node]:
+	var result: Array[Node] = []
+	for node in block_structures.values():
+		if node != null and is_instance_valid(node):
+			result.append(node)
+	return result
+
+func has_occupied_cell(cell: Vector2i) -> bool:
+	return occupied_cells.has(cell)
+
+func get_cell_world_center(cell: Vector2i) -> Vector2:
+	return ground.to_global(ground.map_to_local(cell))
+
+func get_cell_size_world() -> Vector2:
+	return Vector2(ground.tile_set.tile_size) * ground.global_scale
+
+func _create_block(cell: Vector2i) -> void:
+	var block := StaticBody2D.new()
+	block.name = "Block_%s_%s" % [cell.x, cell.y]
+	block.set_meta("cell", cell)
+	block.set_meta("max_health", block_max_health)
+	block.set_meta("current_health", block_max_health)
+	block.add_to_group("structure_targets")
+	block.add_to_group("player_blocks")
+	block.collision_layer = 2
+	block.collision_mask = 1
+	add_child(block)
+
+	var visual := Polygon2D.new()
+	var size: Vector2 = get_cell_size_world()
+	var half := size * 0.5
+	visual.polygon = PackedVector2Array([
+		Vector2(-half.x, -half.y),
+		Vector2(half.x, -half.y),
+		Vector2(half.x, half.y),
+		Vector2(-half.x, half.y)
+	])
+	visual.color = BLOCK_COLOR
+	block.add_child(visual)
+
+	var collision := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = size
+	collision.shape = rect
+	block.add_child(collision)
+
+	var health_bar := ProgressBar.new()
+	health_bar.name = "HealthBar"
+	health_bar.custom_minimum_size = Vector2(max(size.x, 24.0), 8.0)
+	health_bar.size = health_bar.custom_minimum_size
+	health_bar.position = Vector2(-health_bar.custom_minimum_size.x * 0.5, -half.y - 14.0)
+	health_bar.show_percentage = false
+	block.add_child(health_bar)
+
+	block.position = to_local(get_cell_world_center(cell))
+	block.set_script(_create_block_script())
+	block.call("setup_block", self, cell)
+	occupied_cells[cell] = true
+	block_structures[cell] = block
+	emit_signal("structure_added", block)
+
+func destroy_block_at_cell(cell: Vector2i) -> void:
+	var block: Node = block_structures.get(cell, null)
+	if block == null or not is_instance_valid(block):
+		occupied_cells.erase(cell)
+		block_structures.erase(cell)
+		queue_redraw()
+		return
+	emit_signal("structure_removed", block)
+	occupied_cells.erase(cell)
+	block_structures.erase(cell)
+	block.queue_free()
+	queue_redraw()
+
+func _create_block_script() -> Script:
+	var script := GDScript.new()
+	script.source_code = "extends StaticBody2D\nvar build_system: Node\nvar cell: Vector2i\nvar destroyed := false\nfunc setup_block(owner_build_system: Node, owner_cell: Vector2i) -> void:\n\tbuild_system = owner_build_system\n\tcell = owner_cell\n\t_update_health_bar()\nfunc take_damage(amount: float) -> void:\n\tif destroyed or amount <= 0.0:\n\t\treturn\n\tvar current_health: float = float(get_meta(\"current_health\", 0.0)) - amount\n\tset_meta(\"current_health\", max(current_health, 0.0))\n\t_update_health_bar()\n\tif current_health <= 0.0:\n\t\tdestroyed = true\n\t\tif build_system != null and is_instance_valid(build_system):\n\t\t\tbuild_system.destroy_block_at_cell(cell)\nfunc is_structure_alive() -> bool:\n\treturn not destroyed and float(get_meta(\"current_health\", 0.0)) > 0.0\nfunc is_destroyed() -> bool:\n\treturn destroyed or float(get_meta(\"current_health\", 0.0)) <= 0.0\nfunc get_anchor_cell() -> Vector2i:\n\treturn cell\nfunc get_occupied_cells() -> Array[Vector2i]:\n\treturn [cell]\nfunc get_cell_world_center(query_cell: Vector2i = cell) -> Vector2:\n\tif build_system != null and is_instance_valid(build_system):\n\t\treturn build_system.get_cell_world_center(query_cell)\n\treturn global_position\nfunc get_closest_attack_point(from_world: Vector2) -> Vector2:\n\treturn global_position\nfunc get_attack_radius() -> float:\n\tif build_system != null and is_instance_valid(build_system):\n\t\tvar size: Vector2 = build_system.get_cell_size_world()\n\t\treturn max(size.x, size.y) * 0.5\n\treturn 16.0\nfunc _update_health_bar() -> void:\n\tvar bar := get_node_or_null(\"HealthBar\") as ProgressBar\n\tif bar == null:\n\t\treturn\n\tvar max_health := float(get_meta(\"max_health\", 1.0))\n\tvar current_health := float(get_meta(\"current_health\", max_health))\n\tbar.min_value = 0.0\n\tbar.max_value = max_health\n\tbar.value = current_health\n\tbar.visible = current_health < max_health\n\tvar ratio := current_health / max_health if max_health > 0.0 else 0.0\n\tif ratio > 0.6:\n\t\tbar.modulate = Color(0.2, 0.9, 0.2, 1.0)\n\telif ratio > 0.3:\n\t\tbar.modulate = Color(1.0, 0.85, 0.2, 1.0)\n\telse:\n\t\tbar.modulate = Color(1.0, 0.2, 0.2, 1.0)\n"
+	script.reload()
+	return script
+
 func _update_button_visuals() -> void:
 	if build_button == null:
 		return
@@ -87,9 +172,6 @@ func _update_button_visuals() -> void:
 	build_button.modulate = Color(1.0, 0.75, 0.75, 1.0) if build_mode_enabled else Color(1.0, 1.0, 1.0, 1.0)
 
 func _draw() -> void:
-	for cell in occupied_cells.keys():
-		_draw_filled_cell(cell, BLOCK_COLOR)
-
 	if build_mode_enabled:
 		_draw_grid()
 		if has_hovered_cell and not occupied_cells.has(hovered_cell):

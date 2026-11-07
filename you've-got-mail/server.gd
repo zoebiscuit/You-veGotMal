@@ -15,14 +15,23 @@ signal server_destroyed
 @onready var collision_shape: CollisionShape2D = $StaticBody2D/CollisionShape2D
 
 var _destroyed_emitted := false
+var anchor_cell: Vector2i = Vector2i.ZERO
+var ground_ref: TileMapLayer
 
 func _ready() -> void:
 	z_index = 2
+	add_to_group("structure_targets")
 	max_health = max(max_health, 1.0)
 	current_health = clamp(current_health, 0.0, max_health)
 	_update_sprite_visual()
 	_update_collision_shape()
 	_update_health_bar()
+
+func set_anchor_cell(value: Vector2i) -> void:
+	anchor_cell = value
+
+func set_ground_ref(value: TileMapLayer) -> void:
+	ground_ref = value
 
 func set_footprint_size(new_size: Vector2) -> void:
 	width = max(new_size.x, 1.0)
@@ -32,7 +41,7 @@ func set_footprint_size(new_size: Vector2) -> void:
 	_update_health_bar()
 
 func take_damage(amount: float) -> void:
-	if amount <= 0.0:
+	if amount <= 0.0 or current_health <= 0.0:
 		return
 	_set_current_health(current_health - amount)
 
@@ -41,7 +50,31 @@ func heal(amount: float) -> void:
 		return
 	_set_current_health(current_health + amount)
 
-func get_occupied_cells(origin_cell: Vector2i) -> Array[Vector2i]:
+func is_structure_alive() -> bool:
+	return current_health > 0.0
+
+func is_destroyed() -> bool:
+	return current_health <= 0.0
+
+func get_anchor_cell() -> Vector2i:
+	return anchor_cell
+
+func get_attack_radius() -> float:
+	return max(width, height) * 0.5
+
+func get_closest_attack_point(from_world: Vector2) -> Vector2:
+	var half := Vector2(width, height) * 0.5
+	return Vector2(
+		clampf(from_world.x, global_position.x - half.x, global_position.x + half.x),
+		clampf(from_world.y, global_position.y - half.y, global_position.y + half.y)
+	)
+
+func get_cell_world_center(cell: Vector2i) -> Vector2:
+	if ground_ref == null:
+		return global_position
+	return ground_ref.to_global(ground_ref.map_to_local(cell))
+
+func get_occupied_cells(origin_cell: Vector2i = anchor_cell) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
 	var start := origin_cell - Vector2i(occupied_size_in_cells.x >> 1, occupied_size_in_cells.y >> 1)
 	for y in range(occupied_size_in_cells.y):
@@ -79,6 +112,8 @@ func _update_collision_shape() -> void:
 	var rectangle := RectangleShape2D.new()
 	rectangle.size = Vector2(width, height)
 	collision_shape.shape = rectangle
+	$StaticBody2D.collision_layer = 2
+	$StaticBody2D.collision_mask = 1
 
 func _update_health_bar() -> void:
 	if not is_node_ready():

@@ -1,0 +1,230 @@
+extends CharacterBody2D
+
+signal died(enemy: Node)
+
+@export var max_health: float = 50.0
+@export var movement_speed: float = 100.0
+@export var attack_damage: float = 10.0
+@export var attack_interval: float = 1.0
+@export var enemy_size: Vector2 = Vector2(24.0, 24.0)
+@export var body_color: Color = Color(0.65, 0.05, 0.05, 1.0)
+@export var target_refresh_interval: float = 0.75
+@export var attack_range_padding: float = 6.0
+
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var health_bar: ProgressBar = $HealthBar
+@onready var attack_timer: Timer = $AttackTimer
+@onready var retarget_timer: Timer = $RetargetTimer
+
+var current_health: float
+var level: Node
+var current_target: Node = null
+var current_target_cell: Vector2i = Vector2i.ZERO
+var current_target_world: Vector2 = Vector2.ZERO
+var _dead := false
+var _debug_click_damage := 25.0
+
+func _ready() -> void:
+	current_health = max_health
+	z_index = 3
+	add_to_group("enemies")
+	_configure_visuals()
+	_update_health_bar()
+	attack_timer.wait_time = max(attack_interval, 0.05)
+	attack_timer.one_shot = false
+	retarget_timer.wait_time = max(target_refresh_interval, 0.1)
+	retarget_timer.one_shot = false
+	attack_timer.timeout.connect(_on_attack_timer_timeout)
+	retarget_timer.timeout.connect(_on_retarget_timer_timeout)
+	retarget_timer.start()
+	level = get_parent()
+	while level != null and not level.has_method("find_nearest_structure_target"):
+		level = level.get_parent()
+	acquire_target()
+
+func _physics_process(_delta: float) -> void:
+	if _dead:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	if Input.is_action_just_pressed("ui_accept"):
+		if global_position.distance_to(get_global_mouse_position()) <= max(enemy_size.x, enemy_size.y) * 1.5:
+			take_damage(_debug_click_damage)
+
+	if not _is_target_valid():
+		acquire_target()
+
+	if not _is_target_valid():
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	current_target_world = _get_attack_position_for_target(current_target, current_target_cell)
+	var to_target := current_target_world - global_position
+	var attack_distance := _get_attack_distance_for_target(current_target)
+	if to_target.length() <= attack_distance:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		_start_attacking()
+		return
+
+	_stop_attacking()
+	var desired_direction := to_target.normalized()
+	velocity = desired_direction * movement_speed
+	move_and_slide()
+
+	if get_slide_collision_count() > 0:
+		for i in range(get_slide_collision_count()):
+			var collision := get_slide_collision(i)
+			if collision == null:
+				continue
+			var collider := collision.get_collider()
+			if collider == null:
+				continue
+			var structure := _resolve_structure_from_collider(collider)
+			if structure != null and structure != current_target:
+				current_target = structure
+				if current_target.has_method("get_anchor_cell"):
+					current_target_cell = current_target.get_anchor_cell()
+				current_target_world = _get_attack_position_for_target(current_target, current_target_cell)
+				velocity = Vector2.ZERO
+				_start_attacking()
+				break
+
+func acquire_target() -> void:
+	_stop_attacking()
+	current_target = null
+	if level == null or not level.has_method("find_nearest_structure_target"):
+		return
+	var target_data = level.find_nearest_structure_target(global_position)
+	if typeof(target_data) != TYPE_DICTIONARY or target_data.is_empty():
+		return
+	var node: Node = target_data.get("node", null)
+	if node == null or not is_instance_valid(node):
+		return
+	current_target = node
+	current_target_cell = target_data.get("cell", Vector2i.ZERO)
+	current_target_world = target_data.get("world_position", node.global_position)
+
+func take_damage(amount: float) -> void:
+	if _dead or amount <= 0.0:
+		return
+	current_health = clamp(current_health - amount, 0.0, max_health)
+	_update_health_bar()
+	if current_health <= 0.0:
+		die()
+
+func die() -> void:
+	if _dead:
+		return
+	_dead = true
+	velocity = Vector2.ZERO
+	_stop_attacking()
+	current_target = null
+	emit_signal("died", self)
+	queue_free()
+
+func _on_attack_timer_timeout() -> void:
+	if _dead or not _is_target_valid():
+		_stop_attacking()
+		return
+	var distance := global_position.distance_to(_get_attack_position_for_target(current_target, current_target_cell))
+	if distance > _get_attack_distance_for_target(current_target) + 4.0:
+		_stop_attacking()
+		return
+	if current_target.has_method("take_damage"):
+		current_target.take_damage(attack_damage)
+	if not _is_target_valid():
+		acquire_target()
+
+func _on_retarget_timer_timeout() -> void:
+	if _dead:
+		return
+	if level == null or not level.has_method("find_nearest_structure_target"):
+		return
+	var target_data = level.find_nearest_structure_target(global_position)
+	if typeof(target_data) != TYPE_DICTIONARY or target_data.is_empty():
+		if not _is_target_valid():
+			current_target = null
+		return
+	var node: Node = target_data.get("node", null)
+	if node == null or not is_instance_valid(node):
+		return
+	if current_target == null or node != current_target:
+		current_target = node
+		current_target_cell = target_data.get("cell", Vector2i.ZERO)
+		current_target_world = target_data.get("world_position", node.global_position)
+	elif target_data.has("cell"):
+		current_target_cell = target_data.get("cell", current_target_cell)
+		current_target_world = target_data.get("world_position", current_target_world)
+
+func _is_target_valid() -> bool:
+	if current_target == null or not is_instance_valid(current_target):
+		return false
+	if current_target.has_method("is_destroyed") and current_target.is_destroyed():
+		return false
+	if current_target.has_method("is_structure_alive"):
+		return current_target.is_structure_alive()
+	return true
+
+func _start_attacking() -> void:
+	if attack_timer.is_stopped():
+		attack_timer.start()
+
+func _stop_attacking() -> void:
+	if not attack_timer.is_stopped():
+		attack_timer.stop()
+
+func _get_attack_position_for_target(target: Node, target_cell: Vector2i) -> Vector2:
+	if target == null:
+		return global_position
+	if target.has_method("get_closest_attack_point"):
+		return target.get_closest_attack_point(global_position)
+	if target.has_method("get_cell_world_center"):
+		return target.get_cell_world_center(target_cell)
+	return target.global_position
+
+func _get_attack_distance_for_target(target: Node) -> float:
+	var own_radius: float = max(enemy_size.x, enemy_size.y) * 0.5
+	if target != null and target.has_method("get_attack_radius"):
+		return own_radius + float(target.get_attack_radius()) + attack_range_padding
+	return own_radius + attack_range_padding
+
+func _resolve_structure_from_collider(collider: Object) -> Node:
+	if collider == null:
+		return null
+	var node := collider as Node
+	while node != null:
+		if node.is_in_group("structure_targets"):
+			return node
+		node = node.get_parent()
+	return null
+
+func _configure_visuals() -> void:
+	var image := Image.create(max(int(enemy_size.x), 1), max(int(enemy_size.y), 1), false, Image.FORMAT_RGBA8)
+	image.fill(body_color)
+	var texture := ImageTexture.create_from_image(image)
+	sprite.texture = texture
+	sprite.centered = true
+	var rect := RectangleShape2D.new()
+	rect.size = enemy_size
+	collision_shape.shape = rect
+	health_bar.custom_minimum_size = Vector2(max(enemy_size.x + 8.0, 24.0), 8.0)
+	health_bar.size = health_bar.custom_minimum_size
+	health_bar.position = Vector2(-health_bar.custom_minimum_size.x * 0.5, -enemy_size.y * 0.5 - 14.0)
+
+func _update_health_bar() -> void:
+	health_bar.min_value = 0.0
+	health_bar.max_value = max_health
+	health_bar.value = current_health
+	health_bar.show_percentage = false
+	health_bar.visible = current_health < max_health
+	var ratio := current_health / max_health if max_health > 0.0 else 0.0
+	if ratio > 0.6:
+		health_bar.modulate = Color(0.2, 0.9, 0.2, 1.0)
+	elif ratio > 0.3:
+		health_bar.modulate = Color(1.0, 0.85, 0.2, 1.0)
+	else:
+		health_bar.modulate = Color(1.0, 0.2, 0.2, 1.0)
