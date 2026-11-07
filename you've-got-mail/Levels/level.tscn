@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cpx8jysf613qt"]
+
+[ext_resource type="Script" uid="uid://drnf3rdddil7c" path="res://Levels/level.gd" id="1_s41d2"]
+
+[sub_resource type="Curve2D" id="Curve2D_54b6e"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 382, 131, 0, 0, 0, 0, 562, 133, 0, 0, 0, 0, 554, 249, 0, 0, 0, 0, 565, 251, 0, 0, 0, 0, 723, 249)
+}
+point_count = 5
+
+[node name="Level" type="Node2D" unique_id=1537833348]
+script = ExtResource("1_s41d2")
+
+[node name="Path2D" type="Path2D" parent="." unique_id=1523825502]
+curve = SubResource("Curve2D_54b6e")
