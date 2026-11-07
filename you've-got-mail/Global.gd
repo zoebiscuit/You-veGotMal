@@ -5,6 +5,7 @@ var GlobalWaves := 0
 var GlobalServerHealth := 0
 var GlobalMonsterAmount := 0
 var first_antivirus_placed := false
+var gameplay_paused := false
 
 func reset_run_state() -> void:
 	GlobalCrypto = 0
@@ -12,6 +13,7 @@ func reset_run_state() -> void:
 	GlobalServerHealth = 0
 	GlobalMonsterAmount = 0
 	first_antivirus_placed = false
+	gameplay_paused = false
 
 func can_afford(amount: int) -> bool:
 	return amount <= 0 or GlobalCrypto >= amount

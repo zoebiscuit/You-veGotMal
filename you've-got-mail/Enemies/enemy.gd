@@ -58,6 +58,10 @@ func _ready() -> void:
 	_update_animation_state()
 
 func _physics_process(_delta: float) -> void:
+	if Global.gameplay_paused:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 	if _dead:
 		velocity = Vector2.ZERO
 		move_and_slide()
@@ -152,6 +156,8 @@ func die() -> void:
 	queue_free()
 
 func _on_attack_timer_timeout() -> void:
+	if Global.gameplay_paused:
+		return
 	if _dead or not _is_target_valid():
 		_stop_attacking()
 		_update_animation_state()
@@ -168,6 +174,8 @@ func _on_attack_timer_timeout() -> void:
 		acquire_target()
 
 func _on_retarget_timer_timeout() -> void:
+	if Global.gameplay_paused:
+		return
 	if _dead:
 		return
 	if level == null or not level.has_method("find_nearest_structure_target"):

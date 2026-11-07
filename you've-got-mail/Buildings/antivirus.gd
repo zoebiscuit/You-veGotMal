@@ -87,6 +87,8 @@ func get_attack_radius() -> float:
 	return max(tower_size.x, tower_size.y) * 0.5
 
 func _on_retarget_timer_timeout() -> void:
+	if Global.gameplay_paused:
+		return
 	if destroyed:
 		return
 	current_target = _find_nearest_enemy_in_range()
@@ -97,6 +99,8 @@ func _on_retarget_timer_timeout() -> void:
 		fire_timer.stop()
 
 func _on_fire_timer_timeout() -> void:
+	if Global.gameplay_paused:
+		return
 	if destroyed:
 		fire_timer.stop()
 		return
