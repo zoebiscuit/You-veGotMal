@@ -31,6 +31,4 @@ func _ready() -> void:
 	pass
 
 func _process(_delta: float) -> void:
-	if GlobalServerHealth <= 0:
-		GlobalServerHealth=1
-		get_tree().change_scene_to_file("res://death.tscn")
+	pass

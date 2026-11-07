@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://2xqbtic3dcuo"]
+
+[ext_resource type="Texture2D" uid="uid://bftmxddejhitf" path="res://assets/Untitled design(23).png" id="1_iyf0q"]
+[ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="2_eopfh"]
+
+[node name="information" type="Node2D" unique_id=292751193]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1593972632]
+offset_right = 1920.0
+offset_bottom = 1080.0
+scale = Vector2(0.6046491, 0.60436267)
+texture = ExtResource("1_iyf0q")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=181635175]
+offset_left = 164.0
+offset_top = 46.0
+offset_right = 1085.0
+offset_bottom = 678.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_eopfh")
+theme_override_font_sizes/normal_font_size = 30
+text = "Fron: charlie@yahood.com
+
+I need you to verify some orders for me. Please login with your google account in less than 24hrs, or else we might get the whole order wrong.
+ama.zon/com/verify-ABC"
+
+[node name="Accept" type="Button" parent="." unique_id=1757002268]
+offset_left = 304.0
+offset_top = 441.0
+offset_right = 526.0
+offset_bottom = 510.0
+theme_override_fonts/font = ExtResource("2_eopfh")
+theme_override_font_sizes/font_size = 20
+text = "Accept?"
+
+[node name="Decline" type="Button" parent="." unique_id=819869604]
+offset_left = 608.0
+offset_top = 446.0
+offset_right = 830.0
+offset_bottom = 515.0
+theme_override_fonts/font = ExtResource("2_eopfh")
+theme_override_font_sizes/font_size = 20
+text = "Decline?"
