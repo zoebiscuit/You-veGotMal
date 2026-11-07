@@ -7,7 +7,7 @@ signal server_destroyed
 @export var max_health: float = 100.0
 @export var current_health: float = 100.0
 @export var occupied_size_in_cells: Vector2i = Vector2i(5, 5)
-@export var visual_scale_multiplier: float = 1.85
+@export var visual_scale_multiplier: float = 1.55
 @export var server_texture: Texture2D = preload("res://assets/server.png")
 @export var health_bar_height: float = 4.0
 @export var health_bar_fade_delay: float = 3.0
