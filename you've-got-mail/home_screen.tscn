@@ -52,7 +52,8 @@ theme_override_colors/font_outline_color = Color(0, 0.243137, 0.282353, 1)
 theme_override_constants/outline_size = 50
 theme_override_fonts/font = ExtResource("3_gf7oa")
 theme_override_font_sizes/font_size = 65
-text = "Credits\n"
+text = "Credits
+"
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=1920235481]
 custom_minimum_size = Vector2(460, 40)
@@ -63,6 +64,7 @@ theme_override_colors/font_outline_color = Color(0, 0.243137, 0.282353, 1)
 theme_override_constants/outline_size = 50
 theme_override_fonts/font = ExtResource("3_gf7oa")
 theme_override_font_sizes/font_size = 65
-text = "Quit\n"
+text = "Quit
+"
 
 [connection signal="pressed" from="VBoxContainer/Start Game" to="VBoxContainer/Start Game" method="_on_pressed"]
