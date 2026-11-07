@@ -13,12 +13,14 @@ offset_left = 95.0
 offset_top = 75.0
 offset_right = 1000.0
 offset_bottom = 547.0
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="Control" unique_id=936279734]
 layout_mode = 0
 offset_right = 921.0
 offset_bottom = 455.0
 texture = ExtResource("1_ovs04")
+metadata/_edit_use_anchors_ = true
 
 [node name="TextEdit" type="TextEdit" parent="Control" unique_id=961915304]
 layout_mode = 0
@@ -27,15 +29,24 @@ offset_top = 73.0
 offset_right = 909.0
 offset_bottom = 413.0
 theme_override_fonts/font = ExtResource("2_7v4vq")
-theme_override_font_sizes/font_size = 30
-text = "malware is here malware is here malware is here malware is here"
+theme_override_font_sizes/font_size = 20
+text = "From: yutube@very_trustworthy.com
+
+Hi, it’s your bos!  I need $100 urgenty, I have to attend a client dinner and need the moey.  I’ll pay it back!  Promise"
 wrap_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="mail_icon" type="TextureRect" parent="Control" unique_id=297198112]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02320442
+anchor_top = 0.118644066
+anchor_right = -0.035489146
+anchor_bottom = 0.030597493
 offset_left = 342.0
 offset_top = 227.0
 offset_right = 548.1714
 offset_bottom = 422.9548
 rotation = -0.06778467
 texture = ExtResource("3_7v4vq")
+metadata/_edit_use_anchors_ = true
