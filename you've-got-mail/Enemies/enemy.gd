@@ -144,7 +144,7 @@ func die() -> void:
 	if _dead:
 		return
 	_dead = true
-	Global.GlobalCrypto += 5
+	Global.GlobalCrypto += 10
 	velocity = Vector2.ZERO
 	_stop_attacking()
 	current_target = null
