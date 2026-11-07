@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://qi3kcyxp3ntp"]
+
+[ext_resource type="Texture2D" uid="uid://cc2q0hkoi24f7" path="res://assets/OLDCOMPTEXTBOX.png" id="1_ovs04"]
+[ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="2_7v4vq"]
+[ext_resource type="Texture2D" uid="uid://cag84uwxbep7e" path="res://assets/BLANK1.png" id="3_7v4vq"]
+
+[node name="MailMechanic" type="Node2D" unique_id=2016640540]
+
+[node name="Control" type="Control" parent="." unique_id=725646844]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 95.0
+offset_top = 75.0
+offset_right = 1000.0
+offset_bottom = 547.0
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=936279734]
+layout_mode = 0
+offset_right = 921.0
+offset_bottom = 455.0
+texture = ExtResource("1_ovs04")
+
+[node name="TextEdit" type="TextEdit" parent="Control" unique_id=961915304]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 73.0
+offset_right = 909.0
+offset_bottom = 413.0
+theme_override_fonts/font = ExtResource("2_7v4vq")
+theme_override_font_sizes/font_size = 30
+text = "malware is here malware is here malware is here malware is here"
+wrap_mode = 1
+
+[node name="mail_icon" type="TextureRect" parent="Control" unique_id=297198112]
+layout_mode = 0
+offset_left = 342.0
+offset_top = 227.0
+offset_right = 548.1714
+offset_bottom = 422.9548
+rotation = -0.06778467
+texture = ExtResource("3_7v4vq")
