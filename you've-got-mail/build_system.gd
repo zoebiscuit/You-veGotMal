@@ -44,6 +44,7 @@ var selected_building_type: String = BUILDING_FIREWALL
 @onready var selection_panel: Panel = get_node_or_null(selection_panel_path) as Panel
 @onready var firewall_button: Button = get_node_or_null(firewall_button_path) as Button
 @onready var antivirus_button: Button = get_node_or_null(antivirus_button_path) as Button
+@onready var build_mode_ui: CanvasLayer = get_node_or_null("../BuildModeUI") as CanvasLayer
 
 func _ready() -> void:
 	if ground == null:
@@ -117,6 +118,7 @@ func set_build_mode_enabled(enabled: bool) -> void:
 	if build_mode_enabled == enabled:
 		return
 	build_mode_enabled = enabled
+	Global.gameplay_paused = build_mode_enabled
 	if not build_mode_enabled:
 		has_hovered_cell = false
 	_update_button_visuals()

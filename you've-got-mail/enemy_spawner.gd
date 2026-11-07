@@ -26,6 +26,8 @@ func _ready() -> void:
 	spawn_timer.start()
 
 func _on_spawn_timer_timeout() -> void:
+	if Global.gameplay_paused:
+		return
 	_cleanup_enemy_list()
 	if enemy_scene == null or camera == null or ground == null or enemies_container == null:
 		return
