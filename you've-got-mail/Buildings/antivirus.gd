@@ -152,7 +152,10 @@ func _fire_projectile(target_enemy: Node) -> void:
 	var projectile := projectile_scene.instantiate()
 	if projectile == null:
 		return
-	get_tree().current_scene.add_child(projectile)
+	var scene_root := _get_scene_root()
+	if scene_root == null:
+		return
+	scene_root.add_child(projectile)
 	projectile.global_position = global_position
 	if projectile.has_method("setup"):
 		projectile.setup(target_enemy, projectile_speed, attack_damage)
@@ -228,3 +231,14 @@ func _show_health_bar_temporarily(should_show: bool) -> void:
 		if is_instance_valid(health_bar):
 			health_bar.visible = false
 	)
+
+func _get_scene_root() -> Node:
+	var tree := get_tree()
+	if tree == null:
+		return null
+	if tree.current_scene != null:
+		return tree.current_scene
+	var root := tree.root
+	if root == null or root.get_child_count() <= 0:
+		return null
+	return root.get_child(root.get_child_count() - 1)

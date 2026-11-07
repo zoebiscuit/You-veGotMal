@@ -42,7 +42,14 @@ func show_random_email_event() -> void:
 	_active_mail = CanvasLayer.new()
 	_active_mail.name = "ActiveEmailEvent"
 	_active_mail.process_mode = Node.PROCESS_MODE_ALWAYS
-	get_tree().current_scene.add_child(_active_mail)
+	var scene_root := _get_scene_root()
+	if scene_root == null:
+		Global.gameplay_paused = false
+		_active_mail.queue_free()
+		_active_mail = null
+		emit_signal("email_event_finished")
+		return
+	scene_root.add_child(_active_mail)
 	_active_mail.add_child(instance)
 	if instance is Node:
 		(instance as Node).process_mode = Node.PROCESS_MODE_ALWAYS
@@ -81,3 +88,14 @@ func _resolve_email_choice(scene_path: String, choice: String) -> void:
 		_active_mail.queue_free()
 	_active_mail = null
 	emit_signal("email_event_finished")
+
+func _get_scene_root() -> Node:
+	var tree := get_tree()
+	if tree == null:
+		return null
+	if tree.current_scene != null:
+		return tree.current_scene
+	var root := tree.root
+	if root == null or root.get_child_count() <= 0:
+		return null
+	return root.get_child(root.get_child_count() - 1)

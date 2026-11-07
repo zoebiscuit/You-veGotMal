@@ -4,6 +4,7 @@ extends Node2D
 @export_node_path("Camera2D") var camera_path: NodePath = ^"Camera2D"
 @export_node_path("Node2D") var build_system_path: NodePath = ^"BuildSystem"
 @export var server_scene: PackedScene = preload("res://server.tscn")
+@export var death_scene_path: String = "res://death.tscn"
 @export var server_footprint_cells: Vector2i = Vector2i(5, 5)
 @export var server_position_offset: Vector2 = Vector2(0.0, 24.0)
 
@@ -13,6 +14,7 @@ extends Node2D
 
 var server_instance: Node2D
 var server_anchor_cell: Vector2i
+var _game_over_triggered := false
 
 func _ready() -> void:
 	if ground == null:
@@ -129,6 +131,17 @@ func _spawn_server() -> void:
 		server_instance.set_anchor_cell(server_anchor_cell)
 	if server_instance.has_method("set_ground_ref"):
 		server_instance.set_ground_ref(ground)
+	if server_instance.has_signal("server_destroyed") and not server_instance.server_destroyed.is_connected(_on_server_destroyed):
+		server_instance.server_destroyed.connect(_on_server_destroyed)
+
+func _on_server_destroyed() -> void:
+	if _game_over_triggered:
+		return
+	_game_over_triggered = true
+	Global.gameplay_paused = true
+	var tree := get_tree()
+	if tree != null:
+		tree.change_scene_to_file(death_scene_path)
 
 func _center_camera_on_server() -> void:
 	if camera == null:
