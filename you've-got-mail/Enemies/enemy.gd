@@ -38,6 +38,7 @@ func _ready() -> void:
 	z_index = 3
 	add_to_group("enemies")
 	_configure_visuals()
+	animated_sprite.play(&"walk")
 	_update_health_bar()
 	attack_timer.wait_time = max(attack_interval, 0.05)
 	attack_timer.one_shot = false
@@ -195,14 +196,11 @@ func _is_target_valid() -> bool:
 func _start_attacking() -> void:
 	if attack_timer.is_stopped():
 		attack_timer.start()
-	if not _is_attacking_anim:
-		_play_attack_animation()
 
 func _stop_attacking() -> void:
 	if not attack_timer.is_stopped():
 		attack_timer.stop()
-	if _is_attacking_anim:
-		_is_attacking_anim = false
+	_is_attacking_anim = false
 
 func _get_attack_position_for_target(target: Node, target_cell: Vector2i) -> Vector2:
 	if target == null:
@@ -269,19 +267,20 @@ func _update_animation_state() -> void:
 	if _dead:
 		return
 	if _is_attacking_anim:
-		_set_animation_state(AnimState.ATTACK)
 		return
 	if _is_hurt_anim:
 		_set_animation_state(AnimState.HURT)
 		return
 	if velocity.length_squared() > 1.0:
 		_set_animation_state(AnimState.WALK)
-	elif animated_sprite.animation != &"walk":
+	else:
 		_set_animation_state(AnimState.WALK)
 
 func _set_animation_state(state: int) -> void:
 	if _anim_state == state:
 		if state == AnimState.WALK and animated_sprite.animation != &"walk":
+			animated_sprite.play(&"walk")
+		elif state == AnimState.WALK and not animated_sprite.is_playing():
 			animated_sprite.play(&"walk")
 		return
 	_anim_state = state
@@ -295,8 +294,7 @@ func _set_animation_state(state: int) -> void:
 
 func _on_animation_finished() -> void:
 	if animated_sprite.animation == &"attack":
-		if attack_timer.is_stopped():
-			_is_attacking_anim = false
+		_is_attacking_anim = false
 	elif animated_sprite.animation == &"hurt":
 		_is_hurt_anim = false
 	_update_animation_state()

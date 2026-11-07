@@ -4,45 +4,39 @@
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="2_7ool6"]
 [ext_resource type="Script" uid="uid://bqpry3pbu4cdx" path="res://text_edit_2.gd" id="3_7ool6"]
 
-[node name="CryptoTracker" type="Node2D" unique_id=1769862717]
-
-[node name="Control" type="Control" parent="." unique_id=247066323]
+[node name="CryptoTracker" type="Control" unique_id=1769862717]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 433.0
-offset_top = 11.0
-offset_right = 989.0
-offset_bottom = 134.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 14.0
+offset_right = -20.0
+offset_bottom = 88.0
 
-[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=236880252]
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=236880252]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.61257553
-anchor_top = -0.12094364
-anchor_right = -0.61257553
-anchor_bottom = -0.12094364
-offset_left = 267.93332
-offset_top = 0.99345684
-offset_right = 1188.9333
-offset_bottom = 455.99344
-scale = Vector2(0.64392966, 0.27348685)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 texture = ExtResource("1_c4mxl")
-metadata/_edit_use_anchors_ = true
+stretch_mode = 5
 
-[node name="TextEdit2" type="TextEdit" parent="Control" unique_id=955973402]
+[node name="TextEdit2" type="TextEdit" parent="." unique_id=955973402]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.136472
-anchor_top = -2.4017053
-anchor_right = -1.136472
-anchor_bottom = -2.4017053
-offset_left = 282.8784
-offset_top = 71.40975
-offset_right = 1175.8784
-offset_bottom = 411.40976
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 12.0
+offset_right = -24.0
+offset_bottom = -12.0
 theme_override_fonts/font = ExtResource("2_7ool6")
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 24
 text = "0 Crypto"
 wrap_mode = 1
 script = ExtResource("3_7ool6")
-metadata/_edit_use_anchors_ = true
