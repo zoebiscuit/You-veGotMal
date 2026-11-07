@@ -17,8 +17,8 @@ offset_bottom = 134.0
 [node name="TextureRect2" type="TextureRect" parent="Control" unique_id=236880252]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.46570736
-anchor_top = -0.008076885
+anchor_left = -0.61257553
+anchor_top = -0.12094364
 anchor_right = -0.61257553
 anchor_bottom = -0.12094364
 offset_left = 267.93332
@@ -32,8 +32,8 @@ metadata/_edit_use_anchors_ = true
 [node name="TextEdit2" type="TextEdit" parent="Control" unique_id=955973402]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -0.47819853
-anchor_top = -0.4504858
+anchor_left = -1.136472
+anchor_top = -2.4017053
 anchor_right = -1.136472
 anchor_bottom = -2.4017053
 offset_left = 282.8784
