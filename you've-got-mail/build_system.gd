@@ -10,11 +10,20 @@ signal structure_removed(structure: Node)
 @export_node_path("Button") var antivirus_button_path: NodePath = ^"../BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector/AntivirusButton"
 @export var block_max_health: float = 100.0
 @export var antivirus_scene: PackedScene = preload("res://Buildings/antivirus.tscn")
+@export var firewall_cost: int = 5
+@export var antivirus_cost: int = 15
 
 const BLOCK_COLOR := Color(1.0, 0.0, 0.0, 1.0)
 const ANTIVIRUS_COLOR := Color(1.0, 1.0, 1.0, 1.0)
 const GRID_COLOR := Color(1.0, 1.0, 1.0, 0.35)
 const GRID_LINE_WIDTH := 2.0
+const NORMAL_BUTTON_MODULATE := Color(1.0, 1.0, 1.0, 1.0)
+const UNAFFORDABLE_BUTTON_MODULATE := Color(0.55, 0.55, 0.55, 1.0)
+const SELECTED_UNAFFORDABLE_BUTTON_MODULATE := Color(0.75, 0.55, 0.55, 1.0)
+const SELECTED_FIREWALL_MODULATE := Color(1.0, 0.35, 0.35, 1.0)
+const UNSELECTED_FIREWALL_MODULATE := Color(1.0, 0.85, 0.85, 1.0)
+const SELECTED_ANTIVIRUS_MODULATE := Color(0.75, 0.9, 1.0, 1.0)
+const UNSELECTED_ANTIVIRUS_MODULATE := Color(0.95, 0.95, 0.95, 1.0)
 
 const BUILDING_FIREWALL := "firewall"
 const BUILDING_ANTIVIRUS := "antivirus"
@@ -60,6 +69,7 @@ func _process(_delta: float) -> void:
 		if has_hovered_cell:
 			has_hovered_cell = false
 			queue_redraw()
+		_update_button_visuals()
 		return
 
 	var next_hovered := _get_cell_under_mouse()
@@ -68,6 +78,7 @@ func _process(_delta: float) -> void:
 		has_hovered_cell = next_has_hovered
 		hovered_cell = next_hovered
 		queue_redraw()
+	_update_button_visuals()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not build_mode_enabled:
@@ -80,11 +91,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		if _is_mouse_over_control():
 			return
 		var cell := _get_cell_under_mouse()
-		if not _is_cell_buildable(cell):
+		if not _can_attempt_placement(cell, selected_building_type):
 			return
-		if occupied_cells.has(cell):
+		var purchase_price := get_building_price(selected_building_type)
+		if purchase_price > 0 and not Global.can_afford(purchase_price):
+			_update_button_visuals()
 			return
-		_create_structure(cell, selected_building_type)
+		var placed := _create_structure(cell, selected_building_type)
+		if not placed:
+			_update_button_visuals()
+			return
+		if purchase_price > 0 and not Global.spend_crypto(purchase_price):
+			destroy_block_at_cell(cell)
+			_update_button_visuals()
+			queue_redraw()
+			return
+		if selected_building_type == BUILDING_ANTIVIRUS and not Global.first_antivirus_placed:
+			Global.first_antivirus_placed = true
+		_update_button_visuals()
 		queue_redraw()
 		get_viewport().set_input_as_handled()
 
@@ -119,14 +143,36 @@ func get_cell_size_world() -> Vector2:
 func get_structure_type(cell: Vector2i) -> String:
 	return str(structure_data_by_cell.get(cell, {}).get("type", BUILDING_FIREWALL))
 
-func _create_structure(cell: Vector2i, building_type: String) -> void:
+func get_building_price(building_type: String) -> int:
 	match building_type:
 		BUILDING_ANTIVIRUS:
-			_create_antivirus(cell)
+			return 0 if not Global.first_antivirus_placed else antivirus_cost
+		BUILDING_FIREWALL:
+			return firewall_cost
 		_:
-			_create_firewall(cell)
+			return firewall_cost
 
-func _create_firewall(cell: Vector2i) -> void:
+func can_afford_building(building_type: String) -> bool:
+	var price := get_building_price(building_type)
+	return price <= 0 or Global.can_afford(price)
+
+func _can_attempt_placement(cell: Vector2i, building_type: String) -> bool:
+	if not _is_cell_buildable(cell):
+		return false
+	if occupied_cells.has(cell):
+		return false
+	if building_type.is_empty():
+		return false
+	return true
+
+func _create_structure(cell: Vector2i, building_type: String) -> bool:
+	match building_type:
+		BUILDING_ANTIVIRUS:
+			return _create_antivirus(cell)
+		_:
+			return _create_firewall(cell)
+
+func _create_firewall(cell: Vector2i) -> bool:
 	var block := StaticBody2D.new()
 	block.name = "Firewall_%s_%s" % [cell.x, cell.y]
 	block.set_meta("cell", cell)
@@ -169,19 +215,21 @@ func _create_firewall(cell: Vector2i) -> void:
 	block.set_script(_create_firewall_script())
 	block.call("setup_block", self, cell)
 	_register_structure(cell, block, BUILDING_FIREWALL)
+	return true
 
-func _create_antivirus(cell: Vector2i) -> void:
+func _create_antivirus(cell: Vector2i) -> bool:
 	if antivirus_scene == null:
-		return
+		return false
 	var tower := antivirus_scene.instantiate()
 	if tower == null:
-		return
+		return false
 	add_child(tower)
 	tower.name = "Antivirus_%s_%s" % [cell.x, cell.y]
 	tower.position = to_local(get_cell_world_center(cell))
 	if tower.has_method("setup_block"):
 		tower.setup_block(self, cell, get_cell_size_world())
 	_register_structure(cell, tower, BUILDING_ANTIVIRUS)
+	return true
 
 func _register_structure(cell: Vector2i, structure: Node, building_type: String) -> void:
 	occupied_cells[cell] = true
@@ -214,15 +262,37 @@ func _update_button_visuals() -> void:
 	if build_button != null:
 		build_button.text = "Exit Build Mode" if build_mode_enabled else "Build Mode"
 		build_button.button_pressed = build_mode_enabled
-		build_button.modulate = Color(1.0, 0.75, 0.75, 1.0) if build_mode_enabled else Color(1.0, 1.0, 1.0, 1.0)
+		build_button.modulate = Color(1.0, 0.75, 0.75, 1.0) if build_mode_enabled else NORMAL_BUTTON_MODULATE
 	if selection_panel != null:
 		selection_panel.visible = build_mode_enabled
 	if firewall_button != null:
-		firewall_button.modulate = Color(1.0, 0.35, 0.35, 1.0) if selected_building_type == BUILDING_FIREWALL else Color(1.0, 0.85, 0.85, 1.0)
-		firewall_button.text = "[SELECTED] Firewall" if selected_building_type == BUILDING_FIREWALL else "Firewall"
+		var firewall_selected := selected_building_type == BUILDING_FIREWALL
+		var firewall_affordable := can_afford_building(BUILDING_FIREWALL)
+		firewall_button.modulate = _get_button_modulate(firewall_selected, firewall_affordable, SELECTED_FIREWALL_MODULATE, UNSELECTED_FIREWALL_MODULATE)
+		firewall_button.text = _get_building_button_text(BUILDING_FIREWALL, firewall_selected)
 	if antivirus_button != null:
-		antivirus_button.modulate = Color(0.75, 0.9, 1.0, 1.0) if selected_building_type == BUILDING_ANTIVIRUS else Color(0.95, 0.95, 0.95, 1.0)
-		antivirus_button.text = "[SELECTED] Antivirus" if selected_building_type == BUILDING_ANTIVIRUS else "Antivirus"
+		var antivirus_selected := selected_building_type == BUILDING_ANTIVIRUS
+		var antivirus_affordable := can_afford_building(BUILDING_ANTIVIRUS)
+		antivirus_button.modulate = _get_button_modulate(antivirus_selected, antivirus_affordable, SELECTED_ANTIVIRUS_MODULATE, UNSELECTED_ANTIVIRUS_MODULATE)
+		antivirus_button.text = _get_building_button_text(BUILDING_ANTIVIRUS, antivirus_selected)
+
+func _get_building_button_text(building_type: String, selected: bool) -> String:
+	var prefix := "[SELECTED] " if selected else ""
+	return prefix + _get_building_display_text(building_type)
+
+func _get_building_display_text(building_type: String) -> String:
+	match building_type:
+		BUILDING_ANTIVIRUS:
+			return "Antivirus — FREE" if get_building_price(BUILDING_ANTIVIRUS) <= 0 else "Antivirus — %s Crypto" % antivirus_cost
+		BUILDING_FIREWALL:
+			return "Firewall — %s Crypto" % firewall_cost
+		_:
+			return building_type
+
+func _get_button_modulate(selected: bool, affordable: bool, selected_color: Color, normal_color: Color) -> Color:
+	if affordable:
+		return selected_color if selected else normal_color
+	return SELECTED_UNAFFORDABLE_BUTTON_MODULATE if selected else UNAFFORDABLE_BUTTON_MODULATE
 
 func _draw() -> void:
 	if build_mode_enabled:
@@ -252,7 +322,9 @@ func _draw_filled_cell(cell: Vector2i, color: Color) -> void:
 	draw_rect(rect, color, true)
 
 func _get_preview_color() -> Color:
-	return Color(1.0, 1.0, 1.0, 0.7) if selected_building_type == BUILDING_ANTIVIRUS else Color(1.0, 0.0, 0.0, 0.5)
+	if selected_building_type == BUILDING_ANTIVIRUS:
+		return Color(1.0, 1.0, 1.0, 0.7) if can_afford_building(BUILDING_ANTIVIRUS) else Color(0.7, 0.7, 0.7, 0.55)
+	return Color(1.0, 0.0, 0.0, 0.5) if can_afford_building(BUILDING_FIREWALL) else Color(0.45, 0.2, 0.2, 0.45)
 
 func _get_cell_under_mouse() -> Vector2i:
 	var mouse_world := get_global_mouse_position()

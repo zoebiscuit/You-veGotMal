@@ -1,16 +1,31 @@
 extends Node
 
-var GlobalCrypto = 0
-var GlobalWaves = 0
-var GlobalServerHealth = 0
-var GlobalMonsterAmount = 0
+var GlobalCrypto := 0
+var GlobalWaves := 0
+var GlobalServerHealth := 0
+var GlobalMonsterAmount := 0
+var first_antivirus_placed := false
 
+func reset_run_state() -> void:
+	GlobalCrypto = 0
+	GlobalWaves = 0
+	GlobalServerHealth = 0
+	GlobalMonsterAmount = 0
+	first_antivirus_placed = false
 
-# Called when the node enters the scene tree for the first time.
+func can_afford(amount: int) -> bool:
+	return amount <= 0 or GlobalCrypto >= amount
+
+func spend_crypto(amount: int) -> bool:
+	if amount <= 0:
+		return true
+	if GlobalCrypto < amount:
+		return false
+	GlobalCrypto -= amount
+	return true
+
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass

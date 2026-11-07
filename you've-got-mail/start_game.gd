@@ -12,4 +12,5 @@ func _process(_delta: float) -> void:
 
 
 func _on_pressed() -> void:
+	Global.reset_run_state()
 	get_tree().change_scene_to_file("res://new_game.tscn")
