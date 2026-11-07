@@ -3951,15 +3951,244 @@
 			"model": "gpt-5.4",
 			"provider": "openai",
 			"role": "assistant"
+		},
+		{
+			"content": [
+				{
+					"text": "Make new_game show crypto_tracker in top right of screen",
+					"type": "text"
+				}
+			],
+			"role": "user"
+		},
+		{
+			"content": [
+				{
+					"text": "I’ll inspect whether `crypto_tracker` already exists as a scene/script and how `new_game.tscn` is structured, then I’ll add it to the top-right of the `new_game` UI in a way that preserves the existing layout and test for load/runtime issues.",
+					"type": "text"
+				},
+				{
+					"id": "call_5lCRMWgLhObr5Ar7QzmJuzI5",
+					"input": {
+						"extensions": [
+							"gd",
+							"tscn"
+						],
+						"max_results": 200.0,
+						"path": "res://"
+					},
+					"name": "list_project_files",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_FLfrxnCj0SmdRMVxNftRnJKd",
+					"input": {
+						"path": "res://new_game.tscn"
+					},
+					"name": "read_file",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_ilz7TqFthHlJbnbF1NpCO7PQ",
+					"input": {
+						"max_depth": 5.0,
+						"scene_path": "res://new_game.tscn"
+					},
+					"name": "get_scene_tree",
+					"type": "tool_use"
+				}
+			],
+			"model": "gpt-5.4",
+			"provider": "openai",
+			"role": "assistant"
+		},
+		{
+			"content": [
+				{
+					"content": "{\"count\":42,\"files\":[\"res://addons/godot_agent/core/agent.gd\",\"res://addons/godot_agent/core/conversation.gd\",\"res://addons/godot_agent/core/conversation_store.gd\",\"res://addons/godot_agent/core/http_client.gd\",\"res://addons/godot_agent/core/logger.gd\",\"res://addons/godot_agent/core/settings.gd\",\"res://addons/godot_agent/plugin.gd\",\"res://addons/godot_agent/providers/provider_anthropic.gd\",\"res://addons/godot_agent/providers/provider_base.gd\",\"res://addons/godot_agent/providers/provider_factory.gd\",\"res://addons/godot_agent/providers/provider_gemini.gd\",\"res://addons/godot_agent/providers/provider_openai.gd\",\"res://addons/godot_agent/tools/editor_tools.gd\",\"res://addons/godot_agent/tools/image_tools.gd\",\"res://addons/godot_agent/tools/project_tools.gd\",\"res://addons/godot_agent/tools/scene_tools.gd\",\"res://addons/godot_agent/tools/script_tools.gd\",\"res://addons/godot_agent/tools/signal_tools.gd\",\"res://addons/godot_agent/tools/tool_registry.gd\",\"res://addons/godot_agent/tools/tool_schemas.gd\",\"res://addons/godot_agent/ui/history_dialog.gd\",\"res://addons/godot_agent/ui/main_screen.gd\",\"res://addons/godot_agent/ui/settings_dialog.gd\",\"res://Buildings/antivirus.gd\",\"res://Buildings/antivirus.tscn\",\"res://Buildings/projectile.gd\",\"res://Buildings/projectile.tscn\",\"res://build_system.gd\",\"res://crypto_tracker.gd\",\"res://crypto_tracker.tscn\",\"res://Enemies/enemy.gd\",\"res://Enemies/enemy.tscn\",\"res://enemy_spawner.gd\",\"res://Global.gd\",\"res://home_screen.tscn\",\"res://mail_mechanic.tscn\",\"res://new_game.tscn\",\"res://new_game_level.gd\",\"res://server.gd\",\"res://server.tscn\",\"res://start_game.gd\",\"res://text_edit_2.gd\"],\"ok\":true}",
+					"is_error": false,
+					"tool_use_id": "call_5lCRMWgLhObr5Ar7QzmJuzI5",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"content\":\"[gd_scene format=4 uid=\\\"uid://dbxva2gnowo80\\\"]\\n\\n[ext_resource type=\\\"Texture2D\\\" uid=\\\"uid://xqq5k7c70dm7\\\" path=\\\"res://assets/Grass_Tile_map.png\\\" id=\\\"1_v0bqk\\\"]\\n[ext_resource type=\\\"Script\\\" uid=\\\"uid://d34tqux7kxnb5\\\" path=\\\"res://new_game_level.gd\\\" id=\\\"2_level\\\"]\\n[ext_resource type=\\\"Script\\\" uid=\\\"uid://c8sdw1dgs8cbv\\\" path=\\\"res://build_system.gd\\\" id=\\\"3_build\\\"]\\n[ext_resource type=\\\"FontFile\\\" uid=\\\"uid://bptxx8dp13ssw\\\" path=\\\"res://daydream_3/Daydream DEMO.otf\\\" id=\\\"4_ned08\\\"]\\n[ext_resource type=\\\"Script\\\" uid=\\\"uid://cft1fc8aghryt\\\" path=\\\"res://enemy_spawner.gd\\\" id=\\\"5_enemy_spawner\\\"]\\n\\n[sub_resource type=\\\"TileSetAtlasSource\\\" id=\\\"TileSetAtlasSource_84ke3\\\"]\\ntexture = ExtResource(\\\"1_v0bqk\\\")\\nmargins = Vector2i(30, 50)\\ntexture_region_size = Vector2i(256, 256)\\n2:6/0 = 0\\n1:6/0 = 0\\n0:6/0 = 0\\n3:6/0 = 0\\n4:6/0 = 0\\n5:6/0 = 0\\n1:5/0 = 0\\n2:5/0 = 0\\n3:5/0 = 0\\n4:5/0 = 0\\n1:1/0 = 0\\n2:0/0 = 0\\n1:0/0 = 0\\n2:1/0 = 0\\n0:0/0 = 0\\n0:1/0 = 0\\n0:2/0 = 0\\n1:2/0 = 0\\n2:2/0 = 0\\n\\n[sub_resource type=\\\"TileSet\\\" id=\\\"TileSet_rnujv\\\"]\\ntile_size = Vector2i(256, 256)\\nsources/0 = SubResource(\\\"TileSetAtlasSource_84ke3\\\")\\n\\n[node name=\\\"Level1\\\" type=\\\"Node2D\\\" unique_id=1265688403]\\nscript = ExtResource(\\\"2_level\\\")\\n\\n[node name=\\\"Ground\\\" type=\\\"TileMapLayer\\\" parent=\\\".\\\" unique_id=1325527279]\\nposition = Vector2(0.99999994, 0)\\nscale = Vector2(0.1, 0.108)\\ntile_map_data = PackedByteArray(\\\"AAAAAAEAAAABAAEAAAAAAAIAAAABAAEAAAAAAAMAAAABAAEAAAAAAAQAAAABAAEAAAAAAAUAAAABAAEAAAAAAAYAAAABAAEAAAAAAAcAAAABAAEAAAAAAAgAAAABAAEAAAAAAAkAAAABAAEAAAAAAAoAAAABAAEAAAAAAAsAAAABAAEAAAABAAAAAAABAAEAAAABAAEAAAABAAEAAAABAAIAAAABAAEAAAABAAMAAAABAAEAAAABAAQAAAABAAEAAAABAAUAAAABAAEAAAABAAYAAAABAAEAAAABAAcAAAABAAEAAAABAAgAAAABAAEAAAABAAkAAAABAAEAAAABAAoAAAABAAEAAAABAAsAAAABAAEAAAACAAAAAAABAAEAAAACAAEAAAABAAEAAAACAAIAAAABAAEAAAACAAMAAAABAAEAAAACAAQAAAABAAEAAAACAAUAAAABAAEAAAACAAYAAAABAAEAAAACAAcAAAABAAEAAAACAAgAAAABAAEAAAACAAkAAAABAAEAAAACAAoAAAABAAEAAAACAAsAAAABAAEAAAADAAAAAAABAAEAAAADAAEAAAABAAEAAAADAAIAAAABAAEAAAADAAMAAAABAAEAAAADAAQAAAABAAEAAAADAAUAAAABAAEAAAADAAYAAAACAAYAAAADAAcAAAABAAEAAAADAAgAAAABAAEAAAADAAkAAAABAAEAAAADAAoAAAABAAEAAAADAAsAAAABAAEAAAAEAAAAAAABAAEAAAAEAAEAAAABAAEAAAAEAAIAAAABAAEAAAAEAAMAAAABAAEAAAAEAAQAAAABAAEAAAAEAAUAAAABAAEAAAAEAAYAAAABAAEAAAAEAAcAAAABAAEAAAAEAAgAAAABAAEAAAAEAAkAAAABAAEAAAAEAAoAAAABAAEAAAAEAAsAAAACAAYAAAAFAAAAAAAAAAYAAAAFAAEAAAABAAEAAAAFAAIAAAABAAEAAAAFAAMAAAABAAEAAAAFAAQAAAABAAEAAAAFAAUAAAABAAEAAAAFAAYAAAACAAYAAAAFAAcAAAABAAEAAAAFAAgAAAABAAEAAAAFAAkAAAABAAEAAAAFAAoAAAABAAEAAAAFAAsAAAACAAYAAAAGAAAAAAABAAEAAAAGAAEAAAABAAEAAAAGAAIAAAABAAEAAAAGAAMAAAADAAYAAAAGAAQAAAABAAEAAAAGAAUAAAABAAEAAAAGAAYAAAABAAEAAAAGAAcAAAABAAEAAAAGAAgAAAABAAEAAAAGAAkAAAABAAEAAAAGAAoAAAABAAEAAAAGAAsAAAABAAEAAAAHAAAAAAABAAEAAAAHAAEAAAABAAEAAAAHAAIAAAABAAEAAAAHAAMAAAABAAEAAAAHAAQAAAABAAEAAAAHAAUAAAABAAEAAAAHAAYAAAABAAEAAAAHAAcAAAABAAEAAAAHAAgAAAABAAEAAAAHAAkAAAACAAYAAAAHAAoAAAABAAEAAAAHAAsAAAABAAEAAAAIAAAAAAABAAEAAAAIAAEAAAABAAEAAAAIAAIAAAABAAEAAAAIAAMAAAABAAEAAAAIAAQAAAABAAEAAAAIAAUAAAABAAEAAAAIAAYAAAABAAEAAAAIAAcAAAABAAEAAAAIAAgAAAABAAEAAAAIAAkAAAABAAEAAAAIAAoAAAABAAEAAAAIAAsAAAABAAEAAAAJAAAAAAABAAEAAAAJAAEAAAABAAEAAAAJAAIAAAABAAEAAAAJAAMAAAADAAYAAAAJAAQAAAABAAEAAAAJAAUAAAABAAEAAAAJAAYAAAABAAEAAAAJAAcAAAABAAEAAAAJAAgAAAABAAYAAAAJAAkAAAABAAEAAAAJAAoAAAABAAEAAAAJAAsAAAABAAEAAAAKAAAAAAABAAEAAAAKAAEAAAABAAEAAAAKAAIAAAABAAEAAAAKAAMAAAACAAYAAAAKAAQAAAABAAEAAAAKAAUAAAABAAEAAAAKAAYAAAABAAEAAAAKAAcAAAABAAEAAAAKAAgAAAABAAEAAAAKAAkAAAABAAEAAAAKAAoAAAABAAEAAAAKAAsAAAABAAEAAAALAAAAAAAAAAYAAAALAAEAAAABAAEAAAALAAIAAAABAAEAAAALAAMAAAABAAEAAAALAAQAAAABAAEAAAALAAUAAAABAAEAAAALAAYAAAABAAEAAAALAAcAAAABAAEAAAALAAgAAAABAAYAAAALAAkAAAABAAEAAAALAAoAAAABAAEAAAALAAsAAAABAAEAAAAMAAAAAAABAAEAAAAMAAEAAAABAAEAAAAMAAIAAAABAAEAAAAMAAMAAAABAAEAAAAMAAQAAAABAAEAAAAMAAUAAAABAAEAAAAMAAYAAAABAAYAAAAMAAcAAAABAAEAAAAMAAgAAAABAAEAAAAMAAkAAAABAAEAAAAMAAoAAAABAAEAAAAMAAsAAAACAAYAAAANAAAAAAABAAEAAAANAAEAAAABAAEAAAANAAIAAAABAAEAAAANAAMAAAABAAEAAAANAAQAAAABAAEAAAANAAUAAAACAAYAAAANAAYAAAACAAYAAAANAAcAAAADAAYAAAANAAgAAAABAAEAAAANAAkAAAABAAEAAAANAAoAAAABAAEAAAANAAsAAAABAAEAAAAOAAAAAAABAAEAAAAOAAEAAAABAAEAAAAOAAIAAAABAAEAAAAOAAMAAAABAAEAAAAOAAQAAAABAAEAAAAOAAUAAAABAAEAAAAOAAYAAAABAAEAAAAOAAcAAAABAAEAAAAOAAgAAAABAAEAAAAOAAkAAAABAAEAAAAOAAoAAAABAAEAAAAOAAsAAAABAAEAAAAPAAAAAAABAAEAAAAPAAEAAAABAAEAAAAPAAIAAAABAAEAAAAPAAMAAAABAAEAAAAPAAQAAAABAAEAAAAPAAUAAAABAAEAAAAPAAYAAAABAAEAAAAPAAcAAAABAAEAAAAPAAgAAAAAAAAAAAAPAAkAAAAAAAEAAAAPAAoAAAAAAAEAAAAPAAsAAAAAAAEAAAAQAAAAAAABAAEAAAAQAAEAAAABAAEAAAAQAAIAAAABAAEAAAAQAAMAAAABAAEAAAAQAAQAAAABAAEAAAAQAAUAAAABAAEAAAAQAAYAAAABAAYAAAAQAAcAAAABAAEAAAAQAAgAAAABAAAAAAAQAAkAAAABAAEAAAAQAAoAAAABAAEAAAAQAAsAAAABAAEAAAARAAAAAAABAAEAAAARAAEAAAABAAEAAAARAAIAAAABAAEAAAARAAMAAAABAAEAAAARAAQAAAABAAEAAAARAAUAAAABAAEAAAARAAYAAAABAAEAAAARAAcAAAABAAEAAAARAAgAAAABAAAAAAARAAkAAAABAAEAAAARAAoAAAABAAEAAAARAAsAAAABAAEAAAASAAAAAAABAAEAAAASAAEAAAABAAEAAAASAAIAAAABAAEAAAASAAMAAAABAAEAAAASAAQAAAABAAEAAAASAAUAAAABAAEAAAASAAYAAAABAAEAAAASAAcAAAABAAEAAAASAAgAAAABAAAAAAASAAkAAAABAAEAAAASAAoAAAABAAEAAAASAAsAAAABAAEAAAATAAAAAAABAAEAAAATAAEAAAABAAEAAAATAAIAAAACAAYAAAATAAMAAAABAAEAAAATAAQAAAABAAEAAAATAAUAAAABAAEAAAATAAYAAAABAAEAAAATAAcAAAACAAYAAAATAAgAAAABAAAAAAATAAkAAAABAAEAAAATAAoAAAACAAYAAAATAAsAAAABAAEAAAAUAAAAAAABAAEAAAAUAAEAAAABAAEAAAAUAAIAAAABAAEAAAAUAAMAAAABAAEAAAAUAAQAAAABAAEAAAAUAAUAAAABAAEAAAAUAAYAAAABAAEAAAAUAAcAAAABAAEAAAAUAAgAAAABAAAAAAAUAAkAAAABAAEAAAAUAAoAAAACAAYAAAAUAAsAAAABAAEAAAAVAAAAAAABAAEAAAAVAAEAAAABAAEAAAAVAAIAAAABAAEAAAAVAAMAAAABAAEAAAAVAAQAAAABAAEAAAAVAAUAAAABAAEAAAAVAAYAAAABAAEAAAAVAAcAAAABAAEAAAAVAAgAAAABAAAAAAAVAAkAAAABAAEAAAAVAAoAAAABAAEAAAAVAAsAAAABAAEAAAAWAAAAAAABAAEAAAAWAAEAAAABAAEAAAAWAAIAAAABAAEAAAAWAAMAAAABAAEAAAAWAAQAAAABAAEAAAAWAAUAAAABAAEAAAAWAAYAAAABAAEAAAAWAAcAAAABAAEAAAAWAAgAAAABAAAAAAAWAAkAAAABAAEAAAAWAAoAAAABAAEAAAAWAAsAAAABAAEAAAABAAwAAAABAAEAAAABAA0AAAABAAEAAAABAA4AAAABAAEAAAABAA8AAAABAAEAAAABABAAAAADAAYAAAABABEAAAADAAYAAAABABIAAAABAAEAAAABABMAAAABAAEAAAABABQAAAABAAEAAAABABUAAAABAAEAAAABABYAAAABAAEAAAACAAwAAAABAAEAAAACAA0AAAABAAEAAAACAA4AAAABAAEAAAACAA8AAAABAAEAAAACABAAAAABAAEAAAACABEAAAABAAEAAAACABIAAAABAAEAAAACABMAAAABAAEAAAACABQAAAABAAEAAAACABUAAAABAAEAAAACABYAAAABAAEAAAADAAwAAAABAAEAAAADAA0AAAABAAEAAAADAA4AAAABAAEAAAADAA8AAAABAAEAAAADABAAAAABAAEAAAADABEAAAABAAEAAAADABIAAAABAAEAAAADABMAAAABAAEAAAADABQAAAABAAEAAAADABUAAAAAAAYAAAADABYAAAABAAEAAAAEAAwAAAABAAEAAAAEAA0AAAABAAEAAAAEAA4AAAABAAEAAAAEAA8AAAABAAEAAAAEABAAAAADAAYAAAAEABEAAAABAAEAAAAEABIAAAABAAEAAAAEABMAAAABAAEAAAAEABQAAAABAAEAAAAEABUAAAADAAYAAAAEABYAAAABAAEAAAAFAAwAAAABAAEAAAAFAA0AAAABAAEAAAAFAA4AAAABAAEAAAAFAA8AAAABAAEAAAAFABAAAAABAAEAAAAFABEAAAABAAEAAAAFABIAAAABAAEAAAAFABMAAAABAAEAAAAFABQAAAABAAEAAAAFABUAAAADAAYAAAAFABYAAAABAAEAAAAGAAwAAAABAAEAAAAGAA0AAAABAAEAAAAGAA4AAAABAAEAAAAGAA8AAAABAAEAAAAGABAAAAABAAEAAAAGABEAAAABAAEAAAAGABIAAAABAAEAAAAGABMAAAABAAEAAAAGABQAAAABAAEAAAAGABUAAAABAAEAAAAGABYAAAABAAEAAAAHAAwAAAADAAYAAAAHAA0AAAACAAYAAAAHAA4AAAABAAEAAAAHAA8AAAABAAEAAAAHABAAAAABAAEAAAAHABEAAAABAAEAAAAHABIAAAAAAAYAAAAHABMAAAABAAEAAAAHABQAAAABAAEAAAAHABUAAAABAAEAAAAHABYAAAABAAEAAAAIAAwAAAABAAEAAAAIAA0AAAABAAEAAAAIAA4AAAABAAEAAAAIAA8AAAABAAEAAAAIABAAAAABAAEAAAAIABEAAAABAAEAAAAIABIAAAABAAEAAAAIABMAAAABAAEAAAAIABQAAAABAAEAAAAIABUAAAABAAEAAAAIABYAAAABAAEAAAAJAAwAAAABAAEAAAAJAA0AAAABAAEAAAAJAA4AAAABAAEAAAAJAA8AAAABAAEAAAAJABAAAAABAAEAAAAJABEAAAABAAEAAAAJABIAAAABAAEAAAAJABMAAAABAAEAAAAJABQAAAADAAYAAAAJABUAAAABAAEAAAAJABYAAAABAAEAAAAKAAwAAAABAAEAAAAKAA0AAAABAAEAAAAKAA4AAAABAAEAAAAKAA8AAAABAAEAAAAKABAAAAABAAEAAAAKABEAAAABAAEAAAAKABIAAAABAAEAAAAKABMAAAABAAEAAAAKABQAAAABAAEAAAAKABUAAAABAAEAAAAKABYAAAABAAEAAAALAAwAAAABAAEAAAALAA0AAAABAAEAAAALAA4AAAABAAEAAAALAA8AAAABAAEAAAALABAAAAABAAEAAAALABEAAAABAAEAAAALABIAAAABAAEAAAALABMAAAABAAEAAAALABQAAAABAAEAAAALABUAAAABAAEAAAALABYAAAABAAEAAAAMAAwAAAACAAYAAAAMAA0AAAABAAEAAAAMAA4AAAABAAEAAAAMAA8AAAABAAEAAAAMABAAAAACAAYAAAAMABEAAAABAAYAAAAMABIAAAABAAEAAAAMABMAAAABAAEAAAAMABQAAAABAAEAAAAMABUAAAABAAEAAAAMABYAAAABAAEAAAANAAwAAAABAAEAAAANAA0AAAABAAEAAAANAA4AAAABAAEAAAANAA8AAAABAAEAAAANABAAAAABAAEAAAANABEAAAABAAEAAAANABIAAAABAAEAAAANABMAAAABAAEAAAANABQAAAABAAEAAAANABUAAAABAAEAAAANABYAAAABAAEAAAAOAAwAAAABAAEAAAAOAA0AAAABAAEAAAAOAA4AAAABAAEAAAAOAA8AAAABAAEAAAAOABAAAAABAAEAAAAOABEAAAABAAEAAAAOABIAAAABAAEAAAAOABMAAAABAAEAAAAOABQAAAABAAEAAAAOABUAAAABAAEAAAAOABYAAAABAAEAAAAPAAwAAAAAAAEAAAAPAA0AAAAAAAEAAAAPAA4AAAAAAAEAAAAPAA8AAAAAAAEAAAAPABAAAAAAAAEAAAAPABEAAAAAAAIAAAAPABIAAAABAAEAAAAPABMAAAABAAEAAAAPABQAAAABAAEAAAAPABUAAAABAAEAAAAPABYAAAABAAEAAAAQAAwAAAABAAEAAAAQAA0AAAACAAYAAAAQAA4AAAABAAEAAAAQAA8AAAABAAEAAAAQABAAAAABAAEAAAAQABEAAAABAAIAAAAQABIAAAABAAEAAAAQABMAAAABAAEAAAAQABQAAAABAAEAAAAQABUAAAABAAEAAAAQABYAAAABAAEAAAARAAwAAAABAAEAAAARAA0AAAABAAEAAAARAA4AAAABAAEAAAARAA8AAAABAAEAAAARABAAAAABAAEAAAARABEAAAABAAIAAAARABIAAAABAAEAAAARABMAAAABAAEAAAARABQAAAABAAEAAAARABUAAAAAAAYAAAARABYAAAABAAEAAAASAAwAAAABAAEAAAASAA0AAAABAAEAAAASAA4AAAABAAEAAAASAA8AAAABAAEAAAASABAAAAABAAEAAAASABEAAAABAAIAAAASABIAAAABAAEAAAASABMAAAABAAEAAAASABQAAAABAAEAAAASABUAAAABAAEAAAASABYAAAABAAEAAAATAAwAAAABAAEAAAATAA0AAAABAAEAAAATAA4AAAACAAYAAAATAA8AAAABAAEAAAATABAAAAABAAEAAAATABEAAAABAAIAAAATABIAAAABAAYAAAATABMAAAABAAEAAAATABQAAAABAAEAAAATABUAAAABAAEAAAATABYAAAABAAEAAAAUAAwAAAABAAEAAAAUAA0AAAABAAEAAAAUAA4AAAABAAEAAAAUAA8AAAABAAEAAAAUABAAAAABAAEAAAAUABEAAAABAAIAAAAUABIAAAABAAEAAAAUABMAAAABAAEAAAAUABQAAAABAAEAAAAUABUAAAADAAYAAAAUABYAAAABAAEAAAAVAAwAAAABAAEAAAAVAA0AAAABAAEAAAAVAA4AAAABAAEAAAAVAA8AAAABAAEAAAAVABAAAAABAAEAAAAVABEAAAABAAIAAAAVABIAAAABAAEAAAAVABMAAAABAAEAAAAVABQAAAABAAEAAAAVABUAAAABAAEAAAAVABYAAAADAAYAAAAWAAwAAAABAAEAAAAWAA0AAAACAAYAAAAWAA4AAAABAAEAAAAWAA8AAAABAAYAAAAWABAAAAABAAEAAAAWABEAAAABAAIAAAAWABIAAAABAAEAAAAWABMAAAABAAEAAAAWABQAAAABAAEAAAAWABUAAAABAAEAAAAWABYAAAADAAYAAAAXAAEAAAABAAEAAAAXAAIAAAABAAEAAAAXAAMAAAACAAYAAAAXAAQAAAABAAEAAAAXAAUAAAABAAEAAAAXAAYAAAABAAEAAAAXAAcAAAABAAEAAAAXAAgAAAABAAAAAAAXAAkAAAABAAEAAAAXAAoAAAABAAEAAAAXAAsAAAABAAEAAAAXAAwAAAABAAEAAAAXAA0AAAACAAYAAAAXAA4AAAABAAEAAAAXAA8AAAABAAEAAAAXABAAAAABAAEAAAAXABEAAAABAAIAAAAXABIAAAABAAEAAAAXABMAAAABAAEAAAAXABQAAAABAAEAAAAXABUAAAABAAEAAAAXABYAAAADAAYAAAAYAAEAAAABAAEAAAAYAAIAAAABAAEAAAAYAAMAAAACAAYAAAAYAAQAAAABAAEAAAAYAAUAAAABAAEAAAAYAAYAAAACAAYAAAAYAAcAAAABAAEAAAAYAAgAAAABAAAAAAAYAAkAAAABAAEAAAAYAAoAAAABAAEAAAAYAAsAAAABAAEAAAAYAAwAAAABAAEAAAAYAA0AAAACAAYAAAAYAA4AAAABAAEAAAAYAA8AAAABAAEAAAAYABAAAAABAAEAAAAYABEAAAABAAIAAAAYABIAAAABAAEAAAAYABMAAAABAAEAAAAYABQAAAABAAEAAAAYABUAAAABAAEAAAAYABYAAAABAAEAAAAZAAEAAAABAAEAAAAZAAIAAAABAAEAAAAZAAMAAAACAAYAAAAZAAQAAAABAAEAAAAZAAUAAAABAAEAAAAZAAYAAAABAAEAAAAZAAcAAAABAAEAAAAZAAgAAAABAAAAAAAZAAkAAAABAAYAAAAZAAoAAAABAAEAAAAZAAsAAAABAAEAAAAZAAwAAAABAAEAAAAZAA0AAAABAAEAAAAZAA4AAAABAAEAAAAZAA8AAAABAAEAAAAZABAAAAABAAEAAAAZABEAAAABAAIAAAAZABIAAAABAAEAAAAZABMAAAABAAEAAAAZABQAAAABAAEAAAAZABUAAAABAAEAAAAZABYAAAABAAEAAAAaAAEAAAABAAEAAAAaAAIAAAABAAEAAAAaAAMAAAABAAEAAAAaAAQAAAABAAEAAAAaAAUAAAABAAEAAAAaAAYAAAABAAEAAAAaAAcAAAABAAEAAAAaAAgAAAABAAAAAAAaAAkAAAABAAYAAAAaAAoAAAABAAEAAAAaAAsAAAABAAEAAAAaAAwAAAABAAEAAAAaAA0AAAABAAEAAAAaAA4AAAABAAEAAAAaAA8AAAABAAEAAAAaABAAAAABAAEAAAAaABEAAAABAAIAAAAaABIAAAABAAEAAAAaABMAAAABAAEAAAAaABQAAAABAAYAAAAaABUAAAABAAEAAAAaABYAAAABAAEAAAAbAAEAAAABAAEAAAAbAAIAAAACAAYAAAAbAAMAAAABAAEAAAAbAAQAAAABAAEAAAAbAAUAAAABAAEAAAAbAAYAAAABAAEAAAAbAAcAAAABAAEAAAAbAAgAAAABAAAAAAAbAAkAAAABAAEAAAAbAAoAAAABAAEAAAAbAAsAAAACAAYAAAAbAAwAAAABAAEAAAAbAA0AAAABAAYAAAAbAA4AAAABAAEAAAAbAA8AAAABAAEAAAAbABAAAAABAAEAAAAbABEAAAABAAIAAAAbABIAAAABAAEAAAAbABMAAAABAAEAAAAbABQAAAABAAEAAAAbABUAAAABAAEAAAAbABYAAAABAAEAAAAcAAEAAAACAAYAAAAcAAIAAAABAAEAAAAcAAMAAAABAAEAAAAcAAQAAAABAAEAAAAcAAUAAAABAAEAAAAcAAYAAAABAAEAAAAcAAcAAAABAAEAAAAcAAgAAAABAAAAAAAcAAkAAAABAAEAAAAcAAoAAAABAAEAAAAcAAsAAAABAAEAAAAcAAwAAAABAAEAAAAcAA0AAAABAAEAAAAcAA4AAAACAAYAAAAcAA8AAAABAAEAAAAcABAAAAABAAEAAAAcABEAAAABAAIAAAAcABIAAAABAAEAAAAcABMAAAABAAEAAAAcABQAAAABAAEAAAAcABUAAAABAAEAAAAcABYAAAABAAEAAAAdAAEAAAACAAYAAAAdAAIAAAABAAEAAAAdAAMAAAABAAEAAAAdAAQAAAABAAEAAAAdAAUAAAABAAEAAAAdAAYAAAABAAEAAAAdAAcAAAABAAEAAAAdAAgAAAACAAAAAAAdAAkAAAACAAEAAAAdAAoAAAACAAEAAAAdAAsAAAACAAEAAAAdAAwAAAACAAEAAAAdAA0AAAACAAEAAAAdAA4AAAACAAEAAAAdAA8AAAACAAEAAAAdABAAAAACAAEAAAAdABEAAAACAAIAAAAdABIAAAABAAEAAAAdABMAAAABAAEAAAAdABQAAAABAAYAAAAdABUAAAABAAEAAAAdABYAAAABAAEAAAAeAAEAAAABAAEAAAAeAAIAAAABAAEAAAAeAAMAAAABAAEAAAAeAAQAAAABAAEAAAAeAAUAAAABAAEAAAAeAAYAAAABAAEAAAAeAAcAAAABAAEAAAAeAAgAAAABAAEAAAAeAAkAAAABAAEAAAAeAAoAAAABAAEAAAAeAAsAAAABAAEAAAAeAAwAAAABAAEAAAAeAA0AAAABAAEAAAAeAA4AAAABAAEAAAAeAA8AAAABAAEAAAAeABAAAAABAAEAAAAeABEAAAABAAEAAAAeABIAAAABAAYAAAAeABMAAAABAAEAAAAeABQAAAABAAEAAAAeABUAAAABAAEAAAAeABYAAAADAAYAAAAfAAEAAAABAAEAAAAfAAIAAAABAAEAAAAfAAMAAAABAAEAAAAfAAQAAAABAAEAAAAfAAUAAAACAAYAAAAfAAYAAAABAAEAAAAfAAcAAAABAAEAAAAfAAgAAAABAAEAAAAfAAkAAAABAAEAAAAfAAoAAAABAAEAAAAfAAsAAAABAAEAAAAfAAwAAAABAAEAAAAfAA0AAAABAAEAAAAfAA4AAAABAAEAAAAfAA8AAAABAAEAAAAfABAAAAABAAEAAAAfABEAAAABAAEAAAAfABIAAAABAAEAAAAfABMAAAABAAEAAAAfABQAAAADAAYAAAAfABUAAAABAAEAAAAfABYAAAABAAEAAAAgAAEAAAABAAEAAAAgAAIAAAABAAEAAAAgAAMAAAABAAEAAAAgAAQAAAABAAEAAAAgAAUAAAACAAYAAAAgAAYAAAADAAYAAAAgAAcAAAABAAEAAAAgAAgAAAABAAEAAAAgAAkAAAABAAEAAAAgAAoAAAABAAEAAAAgAAsAAAABAAEAAAAgAAwAAAABAAEAAAAgAA0AAAABAAEAAAAgAA4AAAABAAEAAAAgABAAAAABAAEAAAAgABEAAAABAAEAAAAgABIAAAABAAEAAAAgABMAAAABAAEAAAAgABQAAAACAAYAAAAgABUAAAACAAYAAAAgABYAAAABAAEAAAAhAAEAAAABAAEAAAAhAAIAAAABAAEAAAAhAAMAAAABAAEAAAAhAAQAAAABAAEAAAAhAAUAAAABAAEAAAAhAAYAAAABAAEAAAAhAAcAAAABAAEAAAAhAAgAAAABAAEAAAAhAAkAAAABAAEAAAAhAAoAAAABAAEAAAAhAAsAAAACAAYAAAAhAAwAAAABAAEAAAAhAA0AAAABAAEAAAAhAA4AAAABAAEAAAAhAA8AAAABAAEAAAAhABAAAAABAAEAAAAhABEAAAABAAEAAAAhABIAAAABAAEAAAAhABMAAAABAAEAAAAhABQAAAABAAYAAAAhABUAAAACAAYAAAAhABYAAAABAAEAAAAiAAEAAAABAAEAAAAiAAIAAAABAAEAAAAiAAMAAAABAAEAAAAiAAQAAAABAAEAAAAiAAUAAAABAAEAAAAiAAYAAAABAAEAAAAiAAcAAAABAAEAAAAiAAgAAAABAAEAAAAiAAkAAAABAAEAAAAiAAoAAAABAAEAAAAiAAsAAAABAAEAAAAiAAwAAAABAAEAAAAiAA0AAAABAAEAAAAiAA4AAAACAAYAAAAiAA8AAAACAAYAAAAiABAAAAABAAEAAAAiABEAAAABAAEAAAAiABIAAAABAAEAAAAiABMAAAABAAEAAAAiABQAAAABAAEAAAAiABUAAAADAAYAAAAiABYAAAABAAEAAAAjAAEAAAABAAEAAAAjAAIAAAABAAEAAAAjAAMAAAABAAEAAAAjAAQAAAABAAEAAAAjAAUAAAABAAEAAAAjAAYAAAABAAEAAAAjAAcAAAABAAEAAAAjAAgAAAABAAEAAAAjAAkAAAABAAEAAAAjAAoAAAABAAEAAAAjAAsAAAABAAEAAAAjAAwAAAABAAYAAAAjAA0AAAABAAEAAAAjAA4AAAABAAEAAAAjAA8AAAABAAEAAAAjABAAAAABAAEAAAAjABEAAAABAAEAAAAjABIAAAABAAEAAAAjABMAAAABAAEAAAAjABQAAAABAAEAAAAjABUAAAACAAYAAAAjABYAAAABAAEAAAAkAAEAAAABAAEAAAAkAAIAAAABAAEAAAAkAAMAAAABAAEAAAAkAAQAAAABAAEAAAAkAAUAAAABAAEAAAAkAAYAAAABAAEAAAAkAAcAAAABAAEAAAAkAAgAAAABAAEAAAAkAAkAAAABAAEAAAAkAAoAAAABAAEAAAAkAAsAAAABAAYAAAAkAAwAAAABAAYAAAAkAA0AAAABAAEAAAAkAA4AAAABAAEAAAAkAA8AAAABAAEAAAAkABAAAAABAAEAAAAkABEAAAABAAEAAAAkABIAAAABAAEAAAAkABMAAAABAAEAAAAkABQAAAABAAEAAAAkABUAAAABAAEAAAAkABYAAAABAAEAAAAlAAEAAAABAAEAAAAlAAIAAAABAAEAAAAlAAMAAAABAAEAAAAlAAQAAAABAAEAAAAlAAUAAAABAAEAAAAlAAYAAAABAAYAAAAlAAcAAAABAAEAAAAlAAgAAAABAAEAAAAlAAkAAAABAAEAAAAlAAoAAAABAAEAAAAlAAsAAAABAAEAAAAlAAwAAAABAAYAAAAlAA0AAAABAAEAAAAlAA4AAAABAAEAAAAlAA8AAAABAAEAAAAlABAAAAABAAEAAAAlABEAAAABAAEAAAAlABIAAAABAAEAAAAlABMAAAADAAYAAAAlABQAAAACAAYAAAAlABUAAAABAAEAAAAlABYAAAABAAEAAAAmAAEAAAABAAEAAAAmAAIAAAACAAYAAAAmAAMAAAABAAEAAAAmAAQAAAABAAEAAAAmAAUAAAABAAEAAAAmAAYAAAABAAEAAAAmAAcAAAABAAEAAAAmAAgAAAABAAEAAAAmAAkAAAABAAEAAAAmAAoAAAADAAYAAAAmAAsAAAABAAYAAAAmAAwAAAABAAEAAAAmAA0AAAABAAEAAAAmAA4AAAABAAEAAAAmAA8AAAABAAEAAAAmABAAAAABAAEAAAAmABEAAAABAAEAAAAmABIAAAABAAEAAAAmABMAAAABAAEAAAAmABQAAAABAAEAAAAmABUAAAACAAYAAAAmABYAAAABAAEAAAAnAAEAAAABAAEAAAAnAAIAAAACAAYAAAAnAAMAAAABAAEAAAAnAAQAAAABAAEAAAAnAAUAAAABAAEAAAAnAAYAAAABAAEAAAAnAAcAAAABAAEAAAAnAAgAAAABAAEAAAAnAAkAAAABAAEAAAAnAAoAAAABAAEAAAAnAAsAAAABAAYAAAAnAAwAAAABAAEAAAAnAA0AAAABAAYAAAAnAA4AAAABAAEAAAAnAA8AAAABAAEAAAAnABAAAAABAAEAAAAnABEAAAABAAEAAAAnABIAAAABAAEAAAAnABMAAAABAAEAAAAnABQAAAABAAEAAAAnABUAAAABAAEAAAAnABYAAAABAAEAAAAoAAEAAAABAAEAAAAoAAIAAAABAAEAAAAoAAMAAAABAAEAAAAoAAQAAAABAAEAAAAoAAUAAAABAAEAAAAoAAYAAAABAAEAAAAoAAcAAAABAAEAAAAoAAgAAAACAAYAAAAoAAkAAAABAAYAAAAoAAoAAAABAAEAAAAoAAsAAAABAAYAAAAoAAwAAAABAAEAAAAoAA0AAAAAAAYAAAAoAA4AAAABAAEAAAAoAA8AAAABAAEAAAAoABAAAAABAAEAAAAoABEAAAABAAEAAAAoABIAAAABAAEAAAAoABMAAAABAAEAAAAoABQAAAABAAEAAAAoABUAAAABAAEAAAAoABYAAAABAAEAAAApAAEAAAABAAEAAAApAAIAAAABAAEAAAApAAMAAAABAAEAAAApAAQAAAABAAEAAAApAAUAAAABAAEAAAApAAYAAAABAAEAAAApAAcAAAABAAEAAAApAAgAAAABAAEAAAApAAkAAAABAAEAAAApAAoAAAABAAEAAAApAAsAAAABAAEAAAApAAwAAAABAAEAAAApAA0AAAABAAEAAAApAA4AAAABAAEAAAApAA8AAAABAAEAAAApABAAAAABAAEAAAApABEAAAABAAEAAAApABIAAAABAAEAAAApABMAAAABAAEAAAApABQAAAABAAEAAAApABUAAAABAAEAAAApABYAAAABAAEAAAAqAAEAAAABAAEAAAAqAAIAAAABAAEAAAAqAAMAAAABAAEAAAAqAAQAAAABAAEAAAAqAAUAAAABAAEAAAAqAAYAAAABAAEAAAAqAAcAAAABAAEAAAAqAAgAAAABAAEAAAAqAAkAAAABAAEAAAAqAAoAAAABAAEAAAAqAAsAAAABAAEAAAAqAAwAAAABAAEAAAAqAA0AAAABAAEAAAAqAA4AAAABAAEAAAAqAA8AAAABAAEAAAAqABAAAAABAAEAAAAqABEAAAABAAEAAAAqABIAAAABAAEAAAAqABMAAAABAAEAAAAqABQAAAABAAEAAAAqABUAAAABAAEAAAAqABYAAAABAAEAAAArAAEAAAABAAEAAAArAAIAAAABAAEAAAArAAMAAAABAAEAAAArAAQAAAABAAEAAAArAAUAAAABAAEAAAArAAYAAAABAAEAAAArAAcAAAABAAEAAAArAAgAAAABAAEAAAArAAkAAAABAAEAAAArAAoAAAABAAEAAAArAAsAAAABAAEAAAArAAwAAAABAAEAAAArAA0AAAABAAEAAAArAA4AAAABAAEAAAArAA8AAAABAAEAAAArABAAAAABAAEAAAArABEAAAABAAEAAAArABIAAAABAAEAAAArABMAAAABAAEAAAArABQAAAABAAEAAAArABUAAAABAAEAAAArABYAAAABAAEAAAAsAAEAAAABAAEAAAAsAAIAAAABAAEAAAAsAAMAAAABAAEAAAAsAAQAAAABAAEAAAAsAAUAAAABAAEAAAAsAAYAAAABAAEAAAAsAAcAAAABAAEAAAAsAAgAAAABAAEAAAAsAAkAAAABAAEAAAAsAAoAAAABAAEAAAAsAAsAAAABAAEAAAAsAAwAAAABAAEAAAAsAA0AAAABAAEAAAAsAA4AAAABAAEAAAAsAA8AAAABAAEAAAAsABAAAAABAAEAAAAsABEAAAABAAEAAAAsABIAAAABAAEAAAAsABMAAAABAAEAAAAsABQAAAABAAEAAAAsABUAAAABAAEAAAAsABYAAAABAAEAAAAAAAwAAAABAAEAAAAAAA0AAAABAAEAAAAAAA4AAAABAAEAAAAAAA8AAAABAAEAAAAAABAAAAABAAEAAAAAABEAAAABAAEAAAAAABIAAAABAAEAAAAAABMAAAABAAEAAAAAABQAAAABAAEAAAAAABUAAAABAAEAAAAAABYAAAABAAEAAAAXAAAAAAABAAEAAAAYAAAAAAABAAEAAAAZAAAAAAABAAEAAAAaAAAAAAABAAEAAAAbAAAAAAABAAEAAAAcAAAAAAABAAEAAAAdAAAAAAABAAEAAAAeAAAAAAABAAEAAAAfAAAAAAABAAEAAAAgAAAAAAABAAEAAAAhAAAAAAABAAEAAAAiAAAAAAABAAEAAAAjAAAAAAABAAEAAAAkAAAAAAABAAEAAAAlAAAAAAABAAEAAAAmAAAAAAABAAEAAAAnAAAAAAABAAEAAAAoAAAAAAABAAEAAAApAAAAAAABAAEAAAAqAAAAAAABAAEAAAArAAAAAAABAAEAAAAsAAAAAAAAAAYAAAAAABcAAAABAAEAAAABABcAAAABAAEAAAACABcAAAABAAEAAAADABcAAAABAAEAAAAEABcAAAABAAEAAAAFABcAAAABAAEAAAAGABcAAAABAAEAAAAHABcAAAADAAYAAAAIABcAAAADAAYAAAAJABcAAAABAAEAAAAKABcAAAADAAYAAAALABcAAAADAAYAAAAMABcAAAADAAYAAAANABcAAAABAAEAAAAOABcAAAABAAEAAAAPABcAAAABAAEAAAAQABcAAAABAAEAAAARABcAAAABAAEAAAASABcAAAABAAEAAAATABcAAAABAAEAAAAUABcAAAABAAEAAAAVABcAAAABAAEAAAAWABcAAAABAAEAAAAXABcAAAABAAEAAAAYABcAAAABAAEAAAAZABcAAAABAAEAAAAaABcAAAABAAEAAAAbABcAAAABAAEAAAAcABcAAAABAAEAAAAdABcAAAABAAEAAAAeABcAAAABAAEAAAAfABcAAAABAAEAAAAgABcAAAABAAEAAAAhABcAAAABAAEAAAAiABcAAAABAAEAAAAjABcAAAABAAEAAAAkABcAAAABAAEAAAAlABcAAAABAAEAAAAmABcAAAABAAEAAAAnABcAAAABAAEAAAAoABcAAAABAAEAAAApABcAAAABAAEAAAAqABcAAAABAAEAAAArABcAAAABAAEAAAAsABcAAAABAAEAAAAAAAAAAAABAAEAAAAgAA8AAAABAAEAAAA=\\\")\\ntile_set = SubResource(\\\"TileSet_rnujv\\\")\\nmetadata/_edit_group_ = true\\n\\n[node name=\\\"BuildSystem\\\" type=\\\"Node2D\\\" parent=\\\".\\\" unique_id=927113022]\\nscript = ExtResource(\\\"3_build\\\")\\n\\n[node name=\\\"Enemies\\\" type=\\\"Node2D\\\" parent=\\\".\\\" unique_id=1590626155]\\n\\n[node name=\\\"EnemySpawner\\\" type=\\\"Node2D\\\" parent=\\\".\\\" unique_id=1254184536]\\nscript = ExtResource(\\\"5_enemy_spawner\\\")\\n\\n[node name=\\\"SpawnTimer\\\" type=\\\"Timer\\\" parent=\\\"EnemySpawner\\\" unique_id=726653125]\\n\\n[node name=\\\"BuildModeUI\\\" type=\\\"CanvasLayer\\\" parent=\\\".\\\" unique_id=1701032887]\\n\\n[node name=\\\"BuildModeButton\\\" type=\\\"Button\\\" parent=\\\"BuildModeUI\\\" unique_id=1647117674]\\nmodulate = Color(1, 0.95, 0.95, 1)\\nanchors_preset = 7\\nanchor_left = 0.5\\nanchor_top = 1.0\\nanchor_right = 0.5\\nanchor_bottom = 1.0\\noffset_left = -110.0\\noffset_top = -70.0\\noffset_right = 110.0\\noffset_bottom = -20.0\\ntheme_override_fonts/font = ExtResource(\\\"4_ned08\\\")\\ntheme_override_font_sizes/font_size = 20\\ntoggle_mode = true\\ntext = \\\"Build Mode\\\"\\n\\n[node name=\\\"SelectionPanel\\\" type=\\\"Panel\\\" parent=\\\"BuildModeUI\\\" unique_id=1370133870]\\nvisible = false\\noffset_left = 18.0\\noffset_top = 18.0\\noffset_right = 338.0\\noffset_bottom = 158.0\\n\\n[node name=\\\"PanelMargin\\\" type=\\\"MarginContainer\\\" parent=\\\"BuildModeUI/SelectionPanel\\\" unique_id=1848378309]\\nlayout_mode = 0\\noffset_left = 10.0\\noffset_top = 10.0\\noffset_right = 310.0\\noffset_bottom = 130.0\\n\\n[node name=\\\"PanelVBox\\\" type=\\\"VBoxContainer\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin\\\" unique_id=1810502419]\\nlayout_mode = 2\\nsize_flags_horizontal = 3\\nsize_flags_vertical = 3\\ntheme_override_constants/separation = 10\\n\\n[node name=\\\"TitleLabel\\\" type=\\\"Label\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox\\\" unique_id=1604081558]\\nlayout_mode = 2\\ntheme_override_fonts/font = ExtResource(\\\"4_ned08\\\")\\ntheme_override_font_sizes/font_size = 18\\ntext = \\\"Select Building\\\"\\nhorizontal_alignment = 1\\n\\n[node name=\\\"BuildingSelector\\\" type=\\\"HBoxContainer\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox\\\" unique_id=1309902224]\\nlayout_mode = 2\\nsize_flags_horizontal = 3\\ntheme_override_constants/separation = 12\\n\\n[node name=\\\"FirewallButton\\\" type=\\\"Button\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector\\\" unique_id=1510030817]\\nmodulate = Color(1, 0.85, 0.85, 1)\\ncustom_minimum_size = Vector2(135, 52)\\nlayout_mode = 2\\ntheme_override_fonts/font = ExtResource(\\\"4_ned08\\\")\\ntheme_override_font_sizes/font_size = 16\\ntext = \\\"Firewall\\\"\\n\\n[node name=\\\"AntivirusButton\\\" type=\\\"Button\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector\\\" unique_id=525703473]\\nmodulate = Color(0.9, 0.95, 1, 1)\\ncustom_minimum_size = Vector2(135, 52)\\nlayout_mode = 2\\ntheme_override_fonts/font = ExtResource(\\\"4_ned08\\\")\\ntheme_override_font_sizes/font_size = 16\\ntext = \\\"Antivirus\\\"\\n\\n[node name=\\\"HintLabel\\\" type=\\\"Label\\\" parent=\\\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox\\\" unique_id=465558148]\\nlayout_mode = 2\\ntext = \\\"Red = Firewall  |  White = Antivirus\\\"\\nhorizontal_alignment = 1\\n\\n[node name=\\\"Camera2D\\\" type=\\\"Camera2D\\\" parent=\\\".\\\" unique_id=972562185]\\n\\n[connection signal=\\\"pressed\\\" from=\\\"BuildModeUI/BuildModeButton\\\" to=\\\"BuildSystem\\\" method=\\\"toggle_build_mode\\\"]\\n\",\"ok\":true,\"path\":\"res://new_game.tscn\",\"size\":21716}",
+					"is_error": false,
+					"tool_use_id": "call_FLfrxnCj0SmdRMVxNftRnJKd",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"ok\":true,\"tree\":{\"children\":[{\"name\":\"Ground\",\"type\":\"TileMapLayer\"},{\"name\":\"BuildSystem\",\"script\":\"res://build_system.gd\",\"type\":\"Node2D\"},{\"name\":\"Enemies\",\"type\":\"Node2D\"},{\"children\":[{\"name\":\"SpawnTimer\",\"type\":\"Timer\"}],\"name\":\"EnemySpawner\",\"script\":\"res://enemy_spawner.gd\",\"type\":\"Node2D\"},{\"children\":[{\"name\":\"BuildModeButton\",\"type\":\"Button\"},{\"children\":[{\"children\":[{\"children\":[{\"name\":\"TitleLabel\",\"type\":\"Label\"},{\"children_omitted\":2,\"name\":\"BuildingSelector\",\"type\":\"HBoxContainer\"},{\"name\":\"HintLabel\",\"type\":\"Label\"}],\"name\":\"PanelVBox\",\"type\":\"VBoxContainer\"}],\"name\":\"PanelMargin\",\"type\":\"MarginContainer\"}],\"name\":\"SelectionPanel\",\"type\":\"Panel\"}],\"name\":\"BuildModeUI\",\"type\":\"CanvasLayer\"},{\"name\":\"Camera2D\",\"type\":\"Camera2D\"}],\"name\":\"Level1\",\"script\":\"res://new_game_level.gd\",\"type\":\"Node2D\"}}",
+					"is_error": false,
+					"tool_use_id": "call_ilz7TqFthHlJbnbF1NpCO7PQ",
+					"type": "tool_result"
+				}
+			],
+			"role": "user"
+		},
+		{
+			"content": [
+				{
+					"text": "I found an existing `crypto_tracker.tscn`, so I’ll inspect it and then instantiate it under the existing `BuildModeUI` `CanvasLayer`, anchored to the top-right so it stays on-screen in `new_game`. After that I’ll run to confirm it loads cleanly.",
+					"type": "text"
+				},
+				{
+					"id": "call_lbaxXQ03bTI0z6g3wy6oSUi1",
+					"input": {
+						"path": "res://crypto_tracker.tscn"
+					},
+					"name": "read_file",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_N1LqPprdd2Zw7Su59SvlGMOO",
+					"input": {
+						"path": "res://crypto_tracker.gd"
+					},
+					"name": "read_file",
+					"type": "tool_use"
+				}
+			],
+			"model": "gpt-5.4",
+			"provider": "openai",
+			"role": "assistant"
+		},
+		{
+			"content": [
+				{
+					"content": "{\"content\":\"[gd_scene format=3 uid=\\\"uid://n5s0008v6wmi\\\"]\\n\\n[ext_resource type=\\\"Texture2D\\\" uid=\\\"uid://cc2q0hkoi24f7\\\" path=\\\"res://assets/OLDCOMPTEXTBOX.png\\\" id=\\\"1_c4mxl\\\"]\\n[ext_resource type=\\\"FontFile\\\" uid=\\\"uid://bptxx8dp13ssw\\\" path=\\\"res://daydream_3/Daydream DEMO.otf\\\" id=\\\"2_7ool6\\\"]\\n[ext_resource type=\\\"Script\\\" uid=\\\"uid://bqpry3pbu4cdx\\\" path=\\\"res://text_edit_2.gd\\\" id=\\\"3_7ool6\\\"]\\n\\n[node name=\\\"CryptoTracker\\\" type=\\\"Node2D\\\" unique_id=1769862717]\\n\\n[node name=\\\"Control\\\" type=\\\"Control\\\" parent=\\\".\\\" unique_id=247066323]\\nlayout_mode = 3\\nanchors_preset = 0\\noffset_left = 433.0\\noffset_top = 11.0\\noffset_right = 989.0\\noffset_bottom = 134.0\\n\\n[node name=\\\"TextureRect2\\\" type=\\\"TextureRect\\\" parent=\\\"Control\\\" unique_id=236880252]\\nlayout_mode = 1\\nanchors_preset = -1\\nanchor_left = -0.61257553\\nanchor_top = -0.12094364\\nanchor_right = -0.61257553\\nanchor_bottom = -0.12094364\\noffset_left = 267.93332\\noffset_top = 0.99345684\\noffset_right = 1188.9333\\noffset_bottom = 455.99344\\nscale = Vector2(0.64392966, 0.27348685)\\ntexture = ExtResource(\\\"1_c4mxl\\\")\\nmetadata/_edit_use_anchors_ = true\\n\\n[node name=\\\"TextEdit2\\\" type=\\\"TextEdit\\\" parent=\\\"Control\\\" unique_id=955973402]\\nlayout_mode = 1\\nanchors_preset = -1\\nanchor_left = -1.136472\\nanchor_top = -2.4017053\\nanchor_right = -1.136472\\nanchor_bottom = -2.4017053\\noffset_left = 282.8784\\noffset_top = 71.40975\\noffset_right = 1175.8784\\noffset_bottom = 411.40976\\ntheme_override_fonts/font = ExtResource(\\\"2_7ool6\\\")\\ntheme_override_font_sizes/font_size = 40\\ntext = \\\"0 Crypto\\\"\\nwrap_mode = 1\\nscript = ExtResource(\\\"3_7ool6\\\")\\nmetadata/_edit_use_anchors_ = true\\n\",\"ok\":true,\"path\":\"res://crypto_tracker.tscn\",\"size\":1547}",
+					"is_error": false,
+					"tool_use_id": "call_lbaxXQ03bTI0z6g3wy6oSUi1",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"content\":\"extends Node2D\\n\\n\\n# Called when the node enters the scene tree for the first time.\\nfunc _ready() -> void:\\n\\tpass # Replace with function body.\\n\\n\\n# Called every frame. 'delta' is the elapsed time since the previous frame.\\nfunc _process(delta: float) -> void:\\n\\tpass\\n\",\"ok\":true,\"path\":\"res://crypto_tracker.gd\",\"size\":262}",
+					"is_error": false,
+					"tool_use_id": "call_N1LqPprdd2Zw7Su59SvlGMOO",
+					"type": "tool_result"
+				}
+			],
+			"role": "user"
+		},
+		{
+			"content": [
+				{
+					"text": "The tracker scene already exists, but it’s built as a `Node2D` with hardcoded offsets, which won’t reliably sit in the top-right. I’m going to mount it into `new_game.tscn` and fix `crypto_tracker.tscn` so its `Control` anchors top-right properly inside the existing `CanvasLayer`.",
+					"type": "text"
+				},
+				{
+					"id": "call_UkqMpBxtw56pjPyq6a8aVdcX",
+					"input": {
+						"content": "[gd_scene format=3 uid=\"uid://n5s0008v6wmi\"]\n\n[ext_resource type=\"Texture2D\" uid=\"uid://cc2q0hkoi24f7\" path=\"res://assets/OLDCOMPTEXTBOX.png\" id=\"1_c4mxl\"]\n[ext_resource type=\"FontFile\" uid=\"uid://bptxx8dp13ssw\" path=\"res://daydream_3/Daydream DEMO.otf\" id=\"2_7ool6\"]\n[ext_resource type=\"Script\" uid=\"uid://bqpry3pbu4cdx\" path=\"res://text_edit_2.gd\" id=\"3_7ool6\"]\n\n[node name=\"CryptoTracker\" type=\"Control\" unique_id=1769862717]\nlayout_mode = 3\nanchors_preset = 1\nanchor_left = 1.0\nanchor_right = 1.0\noffset_left = -360.0\noffset_top = 14.0\noffset_right = -20.0\noffset_bottom = 104.0\n\n[node name=\"TextureRect2\" type=\"TextureRect\" parent=\".\" unique_id=236880252]\nlayout_mode = 1\nanchors_preset = 15\nanchor_right = 1.0\nanchor_bottom = 1.0\noffset_left = 0.0\noffset_top = 0.0\noffset_right = 0.0\noffset_bottom = 0.0\ntexture = ExtResource(\"1_c4mxl\")\nstretch_mode = 5\n\n[node name=\"TextEdit2\" type=\"TextEdit\" parent=\".\" unique_id=955973402]\nlayout_mode = 1\nanchors_preset = 15\nanchor_right = 1.0\nanchor_bottom = 1.0\noffset_left = 26.0\noffset_top = 14.0\noffset_right = -26.0\noffset_bottom = -14.0\ntheme_override_fonts/font = ExtResource(\"2_7ool6\")\ntheme_override_font_sizes/font_size = 28\ntext = \"0 Crypto\"\nwrap_mode = 1\nscript = ExtResource(\"3_7ool6\")\n",
+						"path": "res://crypto_tracker.tscn"
+					},
+					"name": "write_file",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_z8k3jjBUxywiXLlyVGJeKnVo",
+					"input": {
+						"new_str": "[ext_resource type=\"Script\" uid=\"uid://cft1fc8aghryt\" path=\"res://enemy_spawner.gd\" id=\"5_enemy_spawner\"]\n[ext_resource type=\"PackedScene\" path=\"res://crypto_tracker.tscn\" id=\"6_crypto_tracker\"]\n",
+						"old_str": "[ext_resource type=\"Script\" uid=\"uid://cft1fc8aghryt\" path=\"res://enemy_spawner.gd\" id=\"5_enemy_spawner\"]\n",
+						"path": "res://new_game.tscn"
+					},
+					"name": "patch_script",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_lgtBhhBL3bAyEFcEln8Z23xu",
+					"input": {
+						"new_str": "[node name=\"HintLabel\" type=\"Label\" parent=\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox\" unique_id=465558148]\nlayout_mode = 2\ntext = \"Red = Firewall  |  White = Antivirus\"\nhorizontal_alignment = 1\n\n[node name=\"CryptoTracker\" parent=\"BuildModeUI\" instance=ExtResource(\"6_crypto_tracker\")]\n\n[node name=\"Camera2D\" type=\"Camera2D\" parent=\".\" unique_id=972562185]\n",
+						"old_str": "[node name=\"HintLabel\" type=\"Label\" parent=\"BuildModeUI/SelectionPanel/PanelMargin/PanelVBox\" unique_id=465558148]\nlayout_mode = 2\ntext = \"Red = Firewall  |  White = Antivirus\"\nhorizontal_alignment = 1\n\n[node name=\"Camera2D\" type=\"Camera2D\" parent=\".\" unique_id=972562185]\n",
+						"path": "res://new_game.tscn"
+					},
+					"name": "patch_script",
+					"type": "tool_use"
+				},
+				{
+					"id": "call_oHzmeaK1Po1mPItSevewfRdj",
+					"input": {},
+					"name": "run_project",
+					"type": "tool_use"
+				}
+			],
+			"model": "gpt-5.4",
+			"provider": "openai",
+			"role": "assistant"
+		},
+		{
+			"content": [
+				{
+					"content": "{\"bytes_written\":1243,\"ok\":true,\"path\":\"res://crypto_tracker.tscn\"}",
+					"is_error": false,
+					"tool_use_id": "call_UkqMpBxtw56pjPyq6a8aVdcX",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"bytes_written\":21805,\"ok\":true,\"path\":\"res://new_game.tscn\"}",
+					"is_error": false,
+					"tool_use_id": "call_z8k3jjBUxywiXLlyVGJeKnVo",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"bytes_written\":21896,\"ok\":true,\"path\":\"res://new_game.tscn\"}",
+					"is_error": false,
+					"tool_use_id": "call_lgtBhhBL3bAyEFcEln8Z23xu",
+					"type": "tool_result"
+				},
+				{
+					"content": "{\"ok\":true}",
+					"is_error": false,
+					"tool_use_id": "call_oHzmeaK1Po1mPItSevewfRdj",
+					"type": "tool_result"
+				}
+			],
+			"role": "user"
+		},
+		{
+			"content": [
+				{
+					"id": "call_5MntgSqs3Zegrku0NDbHIHrq",
+					"input": {
+						"max_lines": 120.0
+					},
+					"name": "read_console_logs",
+					"type": "tool_use"
+				}
+			],
+			"model": "gpt-5.4",
+			"provider": "openai",
+			"role": "assistant"
+		},
+		{
+			"content": [
+				{
+					"content": "{\"line_count\":5,\"log\":\"Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org\\nOpenGL API 3.3.0 - Build 32.0.101.8132 - Compatibility - Using Device: Intel - Intel(R) Arc(TM) Graphics\\n\\n[godot_agent][info] tool read_console_logs({\\\"max_lines\\\":120.0})\\n\",\"ok\":true,\"total_lines\":5,\"truncated\":false}",
+					"is_error": false,
+					"tool_use_id": "call_5MntgSqs3Zegrku0NDbHIHrq",
+					"type": "tool_result"
+				}
+			],
+			"role": "user"
+		},
+		{
+			"content": [
+				{
+					"text": "Done.\n\nWhat I changed\n- Added `crypto_tracker.tscn` into `new_game.tscn`\n  - instantiated under:\n    - `BuildModeUI`\n- Reworked `crypto_tracker.tscn`\n  - changed root from `Node2D` to `Control`\n  - anchored it to the top-right of the screen\n  - cleaned up its internal layout so it fits inside a UI panel properly\n\nWhere it is now\n- `new_game.tscn`\n  - `BuildModeUI`\n    - `CryptoTracker`\n\nPosition\n- Top-right of the screen\n- It should stay there regardless of camera movement because it’s inside the UI `CanvasLayer`\n\nDisplay\n- Shows:\n  - `0 Crypto`\n\nFiles modified\n- `res://new_game.tscn`\n- `res://crypto_tracker.tscn`\n\nStatus\n- Project runs cleanly after the change\n\nIf you want, I can also make the crypto tracker:\n- smaller/larger\n- closer to the corner\n- styled to match the build selector better",
+					"type": "text"
+				}
+			],
+			"model": "gpt-5.4",
+			"provider": "openai",
+			"role": "assistant"
 		}
 	],
 	"system_prompt": "You're an experienced Godot game designer and software engineer. Complete the requested tasks in the current Godot project, including scenes and scripts. When executing a task, make sure to ask clarifications if required, then create a plan to execute the task, delegate execution to a subagent, and, if possible, try to test and debug with minimal user intervention.",
 	"title": "# Task: Implement an Enemy Spawning, Targeting, and Attac...",
 	"totals": {
-		"input": 18019767,
-		"output": 88128,
-		"total": 18107895
+		"input": 19396224,
+		"output": 89635,
+		"total": 19485859
 	},
-	"updated_at": 1794064730,
+	"updated_at": 1794065486,
 	"version": 1
 }
