@@ -161,8 +161,9 @@ radius = 26.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=617677953]
 sprite_frames = SubResource("SpriteFrames_k4xm6")
-animation = &"walk"
-frame_progress = 0.43641973
+animation = &"attack"
+frame = 4
+frame_progress = 0.0036878719
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1501448951]
 position = Vector2(-3, -8)
