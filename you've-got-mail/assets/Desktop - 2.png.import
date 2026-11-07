@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://42j8jjnqggob"
-path="res://.godot/imported/freebuttons2 copy.png-6f88cbf537683bb50c1795351e2ccc0d.ctex"
+uid="uid://dfrvj7ioejq6c"
+path="res://.godot/imported/Desktop - 2.png-476c19e3919ee2c97997f165959ac03a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://freebuttons2 copy.png"
-dest_files=["res://.godot/imported/freebuttons2 copy.png-6f88cbf537683bb50c1795351e2ccc0d.ctex"]
+source_file="res://assets/Desktop - 2.png"
+dest_files=["res://.godot/imported/Desktop - 2.png-476c19e3919ee2c97997f165959ac03a.ctex"]
 
 [params]
 

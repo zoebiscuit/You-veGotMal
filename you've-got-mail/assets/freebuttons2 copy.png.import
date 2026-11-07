@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw7uuq74fmcmn"
-path="res://.godot/imported/you've got mail (20261106100844).png-385808ce619958dc64cd258df34e65fd.ctex"
+uid="uid://42j8jjnqggob"
+path="res://.godot/imported/freebuttons2 copy.png-74f44e1e00befac91f3da773c96a4caf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://you've got mail (20261106100844).png"
-dest_files=["res://.godot/imported/you've got mail (20261106100844).png-385808ce619958dc64cd258df34e65fd.ctex"]
+source_file="res://assets/freebuttons2 copy.png"
+dest_files=["res://.godot/imported/freebuttons2 copy.png-74f44e1e00befac91f3da773c96a4caf.ctex"]
 
 [params]
 

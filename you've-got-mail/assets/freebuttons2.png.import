@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cmaenck100iin"
-path="res://.godot/imported/freebuttons2.png-90ab0a3ad39cc0045e58672f11b23cdb.ctex"
+path="res://.godot/imported/freebuttons2.png-87f8b2000994ef52f66fbf7c26759ac0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://freebuttons2.png"
-dest_files=["res://.godot/imported/freebuttons2.png-90ab0a3ad39cc0045e58672f11b23cdb.ctex"]
+source_file="res://assets/freebuttons2.png"
+dest_files=["res://.godot/imported/freebuttons2.png-87f8b2000994ef52f66fbf7c26759ac0.ctex"]
 
 [params]
 
