@@ -10,6 +10,7 @@ signal structure_removed(structure: Node)
 @export_node_path("Button") var antivirus_button_path: NodePath = ^"../BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector/AntivirusButton"
 @export var block_max_health: float = 100.0
 @export var antivirus_scene: PackedScene = preload("res://Buildings/antivirus.tscn")
+@export var firewall_texture: Texture2D = preload("res://assets/Firewall.png")
 @export var firewall_cost: int = 5
 @export var antivirus_cost: int = 15
 
@@ -185,16 +186,17 @@ func _create_firewall(cell: Vector2i) -> bool:
 	block.collision_mask = 1
 	add_child(block)
 
-	var visual := Polygon2D.new()
+	var visual := Sprite2D.new()
 	var size: Vector2 = get_cell_size_world()
 	var half: Vector2 = size * 0.5
-	visual.polygon = PackedVector2Array([
-		Vector2(-half.x, -half.y),
-		Vector2(half.x, -half.y),
-		Vector2(half.x, half.y),
-		Vector2(-half.x, half.y)
-	])
-	visual.color = BLOCK_COLOR
+	visual.centered = true
+	visual.texture = firewall_texture
+	if firewall_texture != null:
+		var texture_size := firewall_texture.get_size()
+		if texture_size.x > 0.0 and texture_size.y > 0.0:
+			visual.scale = Vector2(size.x / texture_size.x, size.y / texture_size.y)
+	else:
+		visual.modulate = BLOCK_COLOR
 	block.add_child(visual)
 
 	var collision := CollisionShape2D.new()
