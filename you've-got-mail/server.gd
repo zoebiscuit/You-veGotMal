@@ -13,7 +13,7 @@ signal server_destroyed
 @export var health_bar_fade_delay: float = 3.0
 @export var health_bar_fade_duration: float = 0.35
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var collision_shape: CollisionShape2D = $StaticBody2D/CollisionShape2D
 
@@ -98,15 +98,24 @@ func _set_current_health(value: float) -> void:
 func _update_sprite_visual() -> void:
 	if not is_node_ready():
 		return
+	
 	sprite.centered = true
-	sprite.texture = server_texture
-	if server_texture == null:
+	sprite.play("default") # Play your animation instead of assigning a texture
+	
+	# Retrieve the texture of the current frame from the SpriteFrames resource
+	var current_texture: Texture2D = null
+	if sprite.sprite_frames and sprite.sprite_frames.has_animation(sprite.animation):
+		current_texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+	
+	if current_texture == null:
 		sprite.scale = Vector2.ONE
 		return
-	var texture_size := server_texture.get_size()
+		
+	var texture_size := current_texture.get_size()
 	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
 		sprite.scale = Vector2.ONE
 		return
+		
 	var scale_factor: float = min(width / texture_size.x, height / texture_size.y) * visual_scale_multiplier
 	sprite.scale = Vector2.ONE * scale_factor
 

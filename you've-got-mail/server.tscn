@@ -1,13 +1,36 @@
 [gd_scene format=3 uid="uid://bocywvn4wi4xw"]
 
 [ext_resource type="Script" uid="uid://bdfv33c2hjdf6" path="res://server.gd" id="1_server"]
-[ext_resource type="Texture2D" uid="uid://5gxkah6g8yvn" path="res://assets/server.png" id="2_server_texture"]
+[ext_resource type="Texture2D" uid="uid://doyt7fc88yeu" path="res://assets/correct data.png" id="2_imety"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r06b7"]
+atlas = ExtResource("2_imety")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oawps"]
+atlas = ExtResource("2_imety")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jepff"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r06b7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oawps")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 2.0
+}]
 
 [node name="Server" type="Node2D" unique_id=347161204]
 script = ExtResource("1_server")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1746475039]
-texture = ExtResource("2_server_texture")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=747793762]
+sprite_frames = SubResource("SpriteFrames_jepff")
+frame_progress = 0.6954275
 
 [node name="HealthBar" type="ProgressBar" parent="." unique_id=1767034603]
 offset_left = -25.0
