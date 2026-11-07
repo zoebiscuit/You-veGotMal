@@ -1,23 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://dserverbuilding0001"]
+[gd_scene format=3 uid="uid://bocywvn4wi4xw"]
 
-[ext_resource type="Script" path="res://server.gd" id="1_server"]
+[ext_resource type="Script" uid="uid://bdfv33c2hjdf6" path="res://server.gd" id="1_server"]
+[ext_resource type="Texture2D" uid="uid://5gxkah6g8yvn" path="res://assets/server.png" id="2_server_texture"]
 
-[node name="Server" type="Node2D"]
+[node name="Server" type="Node2D" unique_id=347161204]
 script = ExtResource("1_server")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-centered = true
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1746475039]
+texture = ExtResource("2_server_texture")
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1767034603]
 offset_left = -25.0
 offset_top = -32.0
 offset_right = 25.0
 offset_bottom = -20.0
-show_percentage = false
 value = 100.0
+show_percentage = false
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 1
-collision_mask = 1
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2098186732]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=759842035]

@@ -36,10 +36,10 @@ func _spawn_server() -> void:
 		push_error("Level: Failed to instantiate server scene.")
 		return
 	add_child(server_instance)
-	server_anchor_cell = _get_map_center_cell()
-	server_instance.global_position = _get_cell_center_world(server_anchor_cell)
-	if server_instance.has_method("set_placeholder_size"):
-		server_instance.set_placeholder_size(_get_cell_world_size())
+	server_anchor_cell = _get_map_center_anchor_cell()
+	server_instance.global_position = _get_footprint_center_world(server_anchor_cell, Vector2i(3, 3))
+	if server_instance.has_method("set_footprint_size"):
+		server_instance.set_footprint_size(_get_cell_world_size() * Vector2(3, 3))
 
 func _center_camera_on_server() -> void:
 	if camera == null or server_instance == null:
@@ -49,10 +49,17 @@ func _center_camera_on_server() -> void:
 	camera.reset_smoothing()
 	camera.force_update_scroll()
 
-func _get_map_center_cell() -> Vector2i:
+func _get_map_center_anchor_cell() -> Vector2i:
 	var used_rect := ground.get_used_rect()
 	var center_local := used_rect.position + Vector2i(used_rect.size.x >> 1, used_rect.size.y >> 1)
 	return Vector2i(center_local)
+
+func _get_footprint_center_world(anchor_cell: Vector2i, footprint: Vector2i) -> Vector2:
+	var start := anchor_cell - Vector2i(footprint.x >> 1, footprint.y >> 1)
+	var end := start + footprint - Vector2i.ONE
+	var start_world := _get_cell_center_world(start)
+	var end_world := _get_cell_center_world(end)
+	return (start_world + end_world) * 0.5
 
 func _get_cell_center_world(cell: Vector2i) -> Vector2:
 	return ground.to_global(ground.map_to_local(cell))

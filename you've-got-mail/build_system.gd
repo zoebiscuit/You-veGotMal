@@ -34,6 +34,7 @@ func _ready() -> void:
 	queue_redraw()
 
 func _process(_delta: float) -> void:
+	_refresh_reserved_cells()
 	if not build_mode_enabled:
 		if has_hovered_cell:
 			has_hovered_cell = false

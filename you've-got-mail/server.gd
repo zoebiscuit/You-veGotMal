@@ -2,31 +2,32 @@ extends Node2D
 
 signal server_destroyed
 
-@export var width: float = 25.6
-@export var height: float = 27.648
+@export var width: float = 76.8
+@export var height: float = 82.944
 @export var max_health: float = 100.0
 @export var current_health: float = 100.0
-@export var occupied_size_in_cells: Vector2i = Vector2i.ONE
+@export var occupied_size_in_cells: Vector2i = Vector2i(3, 3)
+@export var visual_scale_multiplier: float = 1.35
+@export var server_texture: Texture2D = preload("res://assets/server.png")
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var collision_shape: CollisionShape2D = $StaticBody2D/CollisionShape2D
 
 var _destroyed_emitted := false
-var _placeholder_texture: ImageTexture
 
 func _ready() -> void:
 	z_index = 2
 	max_health = max(max_health, 1.0)
 	current_health = clamp(current_health, 0.0, max_health)
-	_update_placeholder_visual()
+	_update_sprite_visual()
 	_update_collision_shape()
 	_update_health_bar()
 
-func set_placeholder_size(new_size: Vector2) -> void:
+func set_footprint_size(new_size: Vector2) -> void:
 	width = max(new_size.x, 1.0)
 	height = max(new_size.y, 1.0)
-	_update_placeholder_visual()
+	_update_sprite_visual()
 	_update_collision_shape()
 	_update_health_bar()
 
@@ -57,14 +58,20 @@ func _set_current_health(value: float) -> void:
 	elif current_health > 0.0:
 		_destroyed_emitted = false
 
-func _update_placeholder_visual() -> void:
+func _update_sprite_visual() -> void:
 	if not is_node_ready():
 		return
-	var image := Image.create(maxi(int(round(width)), 1), maxi(int(round(height)), 1), false, Image.FORMAT_RGBA8)
-	image.fill(Color.WHITE)
-	_placeholder_texture = ImageTexture.create_from_image(image)
-	sprite.texture = _placeholder_texture
 	sprite.centered = true
+	sprite.texture = server_texture
+	if server_texture == null:
+		sprite.scale = Vector2.ONE
+		return
+	var texture_size := server_texture.get_size()
+	if texture_size.x <= 0.0 or texture_size.y <= 0.0:
+		sprite.scale = Vector2.ONE
+		return
+	var scale_factor: float = min(width / texture_size.x, height / texture_size.y) * visual_scale_multiplier
+	sprite.scale = Vector2.ONE * scale_factor
 
 func _update_collision_shape() -> void:
 	if not is_node_ready():
