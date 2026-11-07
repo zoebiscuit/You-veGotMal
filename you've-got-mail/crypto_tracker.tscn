@@ -13,16 +13,15 @@ offset_left = -320.0
 offset_top = 14.0
 offset_right = -20.0
 offset_bottom = 88.0
+grow_horizontal = 0
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=236880252]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("1_c4mxl")
 stretch_mode = 5
 
@@ -35,6 +34,8 @@ offset_left = 24.0
 offset_top = 12.0
 offset_right = -24.0
 offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_7ool6")
 theme_override_font_sizes/font_size = 24
 text = "0 Crypto"

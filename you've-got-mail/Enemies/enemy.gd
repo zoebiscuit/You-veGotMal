@@ -15,6 +15,8 @@ enum AnimState {
 @export var enemy_size: Vector2 = Vector2(40.0, 40.0)
 @export var target_refresh_interval: float = 0.75
 @export var attack_range_padding: float = 6.0
+@export var hit_flash_color: Color = Color(1.0, 0.2, 0.2, 1.0)
+@export var hit_flash_duration: float = 0.12
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -32,6 +34,7 @@ var _debug_click_damage := 25.0
 var _anim_state: int = AnimState.WALK
 var _is_attacking_anim := false
 var _is_hurt_anim := false
+var _hit_flash_tween: Tween = null
 
 func _ready() -> void:
 	current_health = max_health
@@ -133,6 +136,7 @@ func take_damage(amount: float) -> void:
 	if current_health <= 0.0:
 		die()
 		return
+	_play_hit_flash()
 	if not _is_attacking_anim:
 		_play_hurt_animation()
 
@@ -262,6 +266,15 @@ func _play_hurt_animation() -> void:
 		return
 	_is_hurt_anim = true
 	_set_animation_state(AnimState.HURT)
+
+func _play_hit_flash() -> void:
+	if animated_sprite == null:
+		return
+	if _hit_flash_tween != null and _hit_flash_tween.is_valid():
+		_hit_flash_tween.kill()
+	animated_sprite.modulate = hit_flash_color
+	_hit_flash_tween = create_tween()
+	_hit_flash_tween.tween_property(animated_sprite, "modulate", Color(1.0, 1.0, 1.0, 1.0), max(hit_flash_duration, 0.01))
 
 func _update_animation_state() -> void:
 	if _dead:
