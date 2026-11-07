@@ -1,13 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqrliufa3wlk3"]
+[gd_scene format=3 uid="uid://bhsy2wgutklk6"]
 
 [ext_resource type="Texture2D" uid="uid://b6snonorb5mo0" path="res://assets/20261106_222759_0000.png" id="1_fm0op"]
 [ext_resource type="Texture2D" uid="uid://bw7uuq74fmcmn" path="res://assets/you've got mail (20261106100844).png" id="2_xe7vm"]
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="3_gf7oa"]
 [ext_resource type="Script" uid="uid://glvryhpr2mo5" path="res://start_game.gd" id="4_vivg1"]
 
-[node name="HomeScreen" type="Node2D"]
+[node name="HomeScreen" type="Node2D" unique_id=1393644544]
 
-[node name="background" type="TextureRect" parent="."]
+[node name="background" type="TextureRect" parent="." unique_id=132515798]
 offset_left = 17.0
 offset_top = -40.0
 offset_right = 1097.0
@@ -15,7 +15,7 @@ offset_bottom = 760.0
 scale = Vector2(1.07662, 0.967721)
 texture = ExtResource("1_fm0op")
 
-[node name="Title" type="TextureRect" parent="."]
+[node name="Title" type="TextureRect" parent="." unique_id=1475487526]
 offset_left = 165.0
 offset_top = -27.0
 offset_right = 3165.0
@@ -23,14 +23,14 @@ offset_bottom = 2073.0
 scale = Vector2(0.2913, 0.293981)
 texture = ExtResource("2_xe7vm")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1683457154]
 offset_left = 439.0
 offset_top = 388.0
 offset_right = 904.0
 offset_bottom = 738.0
 scale = Vector2(0.643718, 0.651206)
 
-[node name="Start Game" type="Button" parent="VBoxContainer"]
+[node name="Start Game" type="Button" parent="VBoxContainer" unique_id=1314341326]
 custom_minimum_size = Vector2(460, 40)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -42,7 +42,7 @@ theme_override_font_sizes/font_size = 65
 text = "play"
 script = ExtResource("4_vivg1")
 
-[node name="Credits" type="Button" parent="VBoxContainer"]
+[node name="Credits" type="Button" parent="VBoxContainer" unique_id=1757478621]
 custom_minimum_size = Vector2(450, 40)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -54,7 +54,7 @@ theme_override_font_sizes/font_size = 65
 text = "Credits
 "
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=1920235481]
 custom_minimum_size = Vector2(460, 40)
 layout_mode = 2
 size_flags_horizontal = 4
