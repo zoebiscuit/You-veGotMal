@@ -8,6 +8,7 @@ extends StaticBody2D
 @export var projectile_scene: PackedScene = preload("res://Buildings/projectile.tscn")
 @export var body_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 @export var visual_fill_multiplier: float = 2.2
+@export var sprite_offset: Vector2 = Vector2(3.0, 1.0)
 @export var shoot_anim_length: float = 1.0
 @export var shoot_anim_frame_interval: float = 0.12
 
@@ -146,6 +147,7 @@ func _configure_visuals() -> void:
 				_base_sprite_scale = Vector2(tower_size.x / frame_size.x, tower_size.y / frame_size.y) * max(visual_fill_multiplier, 0.1)
 				sprite.scale = _base_sprite_scale
 	sprite.modulate = body_color
+	sprite.position = sprite_offset
 	sprite.hframes = 2
 	sprite.vframes = 1
 	sprite.frame = 0
