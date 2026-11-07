@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://n5s0008v6wmi" path="res://crypto_tracker.tscn" id="6_crypto_tracker"]
 [ext_resource type="Script" uid="uid://danm0vlqko7ta" path="res://wave_manager.gd" id="7_wave_manager"]
 [ext_resource type="Texture2D" uid="uid://7vx01liyc6wb" path="res://assets/Firewall.png" id="8_0p8tw"]
-[ext_resource type="Script" path="res://email_event_manager.gd" id="8_email_manager"]
+[ext_resource type="Script" uid="uid://uaa1aqsrjimy" path="res://email_event_manager.gd" id="8_email_manager"]
 [ext_resource type="Texture2D" uid="uid://b17rty1k5kdp1" path="res://assets/computer(2).png" id="8_pf0ge"]
 [ext_resource type="Script" uid="uid://cb46aoror22x6" path="res://computer.gd" id="9_4hap0"]
 [ext_resource type="Texture2D" uid="uid://dgha2k381mky0" path="res://assets/mail.png" id="10_0p8tw"]
@@ -127,7 +127,7 @@ text = "Build Mode"
 
 [node name="SelectionPanel" type="Panel" parent="BuildModeUI" unique_id=1370133870]
 offset_left = -4.0
-offset_right = 423.0
+offset_right = 328.0
 offset_bottom = 236.0
 
 [node name="PanelMargin" type="MarginContainer" parent="BuildModeUI/SelectionPanel" unique_id=1848378309]

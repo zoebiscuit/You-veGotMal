@@ -281,8 +281,7 @@ func _update_button_visuals() -> void:
 		antivirus_button.text = _get_building_button_text(BUILDING_ANTIVIRUS, antivirus_selected)
 
 func _get_building_button_text(building_type: String, selected: bool) -> String:
-	var prefix := "[SELECTED] " if selected else ""
-	return prefix + _get_building_display_text(building_type)
+	return _get_building_display_text(building_type)
 
 func _get_building_display_text(building_type: String) -> String:
 	match building_type:
