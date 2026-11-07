@@ -7,8 +7,11 @@ extends StaticBody2D
 @export var projectile_speed: float = 350.0
 @export var projectile_scene: PackedScene = preload("res://Buildings/projectile.tscn")
 @export var body_color: Color = Color(1.0, 1.0, 1.0, 1.0)
+@export var visual_fill_multiplier: float = 2.2
+@export var shoot_anim_length: float = 1.0
+@export var shoot_anim_frame_interval: float = 0.12
 
-@onready var sprite: Polygon2D = $Polygon2D
+@onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var fire_timer: Timer = $FireTimer
@@ -20,6 +23,8 @@ var current_health: float
 var destroyed := false
 var current_target: Node = null
 var tower_size: Vector2 = Vector2(24.0, 24.0)
+var _base_sprite_scale: Vector2 = Vector2.ONE
+var _shoot_anim_tween: Tween = null
 
 func _ready() -> void:
 	add_to_group("structure_targets")
@@ -129,22 +134,45 @@ func _fire_projectile(target_enemy: Node) -> void:
 	projectile.global_position = global_position
 	if projectile.has_method("setup"):
 		projectile.setup(target_enemy, projectile_speed, attack_damage)
+	_play_shoot_animation()
 
 func _configure_visuals() -> void:
 	var half := tower_size * 0.5
-	sprite.polygon = PackedVector2Array([
-		Vector2(-half.x, -half.y),
-		Vector2(half.x, -half.y),
-		Vector2(half.x, half.y),
-		Vector2(-half.x, half.y)
-	])
-	sprite.color = body_color
+	if sprite.texture != null:
+		var texture_size := sprite.texture.get_size()
+		if texture_size.x > 0.0 and texture_size.y > 0.0:
+			var frame_size := Vector2(texture_size.x / max(sprite.hframes, 1), texture_size.y / max(sprite.vframes, 1))
+			if frame_size.x > 0.0 and frame_size.y > 0.0:
+				_base_sprite_scale = Vector2(tower_size.x / frame_size.x, tower_size.y / frame_size.y) * max(visual_fill_multiplier, 0.1)
+				sprite.scale = _base_sprite_scale
+	sprite.modulate = body_color
+	sprite.hframes = 2
+	sprite.vframes = 1
+	sprite.frame = 0
 	var rect := RectangleShape2D.new()
 	rect.size = tower_size
 	collision_shape.shape = rect
 	health_bar.custom_minimum_size = Vector2(max(tower_size.x, 24.0), 8.0)
 	health_bar.size = health_bar.custom_minimum_size
 	health_bar.position = Vector2(-health_bar.custom_minimum_size.x * 0.5, -half.y - 14.0)
+
+func _play_shoot_animation() -> void:
+	if sprite == null:
+		return
+	if _shoot_anim_tween != null and _shoot_anim_tween.is_valid():
+		_shoot_anim_tween.kill()
+	sprite.frame = 0
+	_shoot_anim_tween = create_tween()
+	var step_count := maxi(1, int(ceil(max(shoot_anim_length, 0.01) / max(shoot_anim_frame_interval, 0.03))))
+	for i in range(step_count):
+		_shoot_anim_tween.tween_callback(func() -> void:
+			sprite.frame = 1 if sprite.frame == 0 else 0
+		)
+		_shoot_anim_tween.tween_interval(max(shoot_anim_frame_interval, 0.03))
+	_shoot_anim_tween.tween_callback(func() -> void:
+		if is_instance_valid(sprite):
+			sprite.frame = 0
+	)
 
 func _update_health_bar() -> void:
 	health_bar.min_value = 0.0
