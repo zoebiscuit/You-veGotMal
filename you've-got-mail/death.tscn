@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://te735inaw20a"]
+
+[ext_resource type="Texture2D" uid="uid://b0ueqoat86oit" path="res://assets/Untitled design(22).png" id="1_qemge"]
+
+[node name="death" type="Node2D" unique_id=136771290]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1149310191]
+offset_right = 1920.0
+offset_bottom = 1080.0
+scale = Vector2(0.5898235, 0.5784586)
+texture = ExtResource("1_qemge")

@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="3_gf7oa"]
 [ext_resource type="Script" uid="uid://glvryhpr2mo5" path="res://start_game.gd" id="4_vivg1"]
 [ext_resource type="Script" uid="uid://mid7ln63sgdi" path="res://credits.gd" id="5_xe7vm"]
+[ext_resource type="Script" uid="uid://bmdnpetqhtnwj" path="res://quit.gd" id="6_gf7oa"]
 
 [node name="HomeScreen" type="Node2D" unique_id=1393644544]
 position = Vector2(-17, 2)
@@ -68,6 +69,8 @@ theme_override_fonts/font = ExtResource("3_gf7oa")
 theme_override_font_sizes/font_size = 65
 text = "Quit
 "
+script = ExtResource("6_gf7oa")
 
 [connection signal="pressed" from="VBoxContainer/Start Game" to="VBoxContainer/Start Game" method="_on_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="VBoxContainer/Credits" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="VBoxContainer/Quit" method="_on_pressed"]
