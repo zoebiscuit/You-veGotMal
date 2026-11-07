@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bw7uuq74fmcmn" path="res://assets/you've got mail (20261106100844).png" id="2_xe7vm"]
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="3_gf7oa"]
 [ext_resource type="Script" uid="uid://glvryhpr2mo5" path="res://start_game.gd" id="4_vivg1"]
+[ext_resource type="Script" uid="uid://mid7ln63sgdi" path="res://credits.gd" id="5_xe7vm"]
 
 [node name="HomeScreen" type="Node2D" unique_id=1393644544]
 position = Vector2(-17, 2)
@@ -54,6 +55,7 @@ theme_override_fonts/font = ExtResource("3_gf7oa")
 theme_override_font_sizes/font_size = 65
 text = "Credits
 "
+script = ExtResource("5_xe7vm")
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=1920235481]
 custom_minimum_size = Vector2(460, 40)
@@ -68,3 +70,4 @@ text = "Quit
 "
 
 [connection signal="pressed" from="VBoxContainer/Start Game" to="VBoxContainer/Start Game" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="VBoxContainer/Credits" method="_on_pressed"]

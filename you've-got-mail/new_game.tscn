@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d34tqux7kxnb5" path="res://new_game_level.gd" id="2_level"]
 [ext_resource type="Script" uid="uid://c8sdw1dgs8cbv" path="res://build_system.gd" id="3_build"]
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="4_ned08"]
-[ext_resource type="Script" uid="uid://cft1fc8aghryt" path="res://enemy_spawner.gd" id="5_enemy_spawner"]
+[ext_resource type="Script" path="res://enemy_spawner.gd" id="5_enemy_spawner"]
 [ext_resource type="PackedScene" uid="uid://n5s0008v6wmi" path="res://crypto_tracker.tscn" id="6_crypto_tracker"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_84ke3"]
@@ -127,6 +127,10 @@ text = "Red = Firewall  |  White = Antivirus"
 horizontal_alignment = 1
 
 [node name="CryptoTracker" parent="BuildModeUI" unique_id=1769862717 instance=ExtResource("6_crypto_tracker")]
+offset_left = -260.0
+offset_top = 34.0
+offset_right = -140.0
+offset_bottom = 60.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=972562185]
 

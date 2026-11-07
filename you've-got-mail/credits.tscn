@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://ckhlq8ktu45q0"]
+
+[ext_resource type="Texture2D" uid="uid://3nohugie308r" path="res://assets/PHOTO-2026-11-06-18-16-34.jpg" id="1_nm7lk"]
+[ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="2_g4wvt"]
+[ext_resource type="Script" uid="uid://glvryhpr2mo5" path="res://start_game.gd" id="3_pjc1l"]
+
+[node name="Credits" type="Node2D" unique_id=1843447312]
+
+[node name="Photo20261106181634" type="Sprite2D" parent="." unique_id=153760966]
+position = Vector2(641.5, 345.0625)
+scale = Vector2(1.3408203, 0.86962897)
+texture = ExtResource("1_nm7lk")
+
+[node name="Start Game" type="Button" parent="Photo20261106181634" unique_id=683151792]
+custom_minimum_size = Vector2(460, 40)
+offset_left = -308.3933
+offset_top = 183.91464
+offset_right = 151.60669
+offset_bottom = 314.01343
+scale = Vector2(1, 1.3219764)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_colors/font_outline_color = Color(0, 0.243137, 0.282353, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/font = ExtResource("2_g4wvt")
+theme_override_font_sizes/font_size = 65
+text = "play"
+script = ExtResource("3_pjc1l")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Photo20261106181634" unique_id=795138469]
+offset_left = -436.67297
+offset_top = -18.47052
+offset_right = -138.72104
+offset_bottom = 114.84784
+theme_override_fonts/normal_font = ExtResource("2_g4wvt")
+theme_override_font_sizes/normal_font_size = 30
+text = "Jeremy"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Photo20261106181634" unique_id=1602083945]
+offset_left = -136.85657
+offset_top = -43.768665
+offset_right = 161.09534
+offset_bottom = 89.5497
+theme_override_fonts/normal_font = ExtResource("2_g4wvt")
+theme_override_font_sizes/normal_font_size = 30
+text = "Zoe"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="Photo20261106181634" unique_id=443980351]
+offset_left = 80.17474
+offset_top = 21.77652
+offset_right = 378.12668
+offset_bottom = 155.09488
+theme_override_fonts/normal_font = ExtResource("2_g4wvt")
+theme_override_font_sizes/normal_font_size = 30
+text = "Yulin
+"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="Photo20261106181634" unique_id=1964803982]
+offset_left = 61.529495
+offset_top = 129.86862
+offset_right = 359.48138
+offset_bottom = 263.18698
+theme_override_fonts/normal_font = ExtResource("2_g4wvt")
+theme_override_font_sizes/normal_font_size = 30
+text = "Ariana"
+
+[connection signal="pressed" from="Photo20261106181634/Start Game" to="Photo20261106181634/Start Game" method="_on_pressed"]
