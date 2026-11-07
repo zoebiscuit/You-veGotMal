@@ -70,8 +70,12 @@ func get_cell_world_center(query_cell: Vector2i = cell) -> Vector2:
 		return build_system.get_cell_world_center(query_cell)
 	return global_position
 
-func get_closest_attack_point(_from_world: Vector2) -> Vector2:
-	return global_position
+func get_closest_attack_point(from_world: Vector2) -> Vector2:
+	var half: Vector2 = tower_size * 0.5
+	return Vector2(
+		clampf(from_world.x, global_position.x - half.x, global_position.x + half.x),
+		clampf(from_world.y, global_position.y - half.y, global_position.y + half.y)
+	)
 
 func get_attack_radius() -> float:
 	return max(tower_size.x, tower_size.y) * 0.5

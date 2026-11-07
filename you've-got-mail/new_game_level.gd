@@ -67,16 +67,11 @@ func is_world_position_near_structure(world_position: Vector2, padding: float = 
 func find_nearest_structure_target(from_world: Vector2) -> Dictionary:
 	var best: Dictionary = {}
 	var best_distance: float = INF
-	var found_player_block := false
 
 	for structure in get_all_structure_nodes():
 		if structure == null or not is_instance_valid(structure):
 			continue
 		if structure.has_method("is_structure_alive") and not structure.is_structure_alive():
-			continue
-
-		var is_player_block := structure.is_in_group("player_blocks")
-		if found_player_block and not is_player_block:
 			continue
 
 		var cells: Array[Vector2i] = _get_structure_cells(structure)
@@ -85,17 +80,11 @@ func find_nearest_structure_target(from_world: Vector2) -> Dictionary:
 			if distance_to_node < best_distance:
 				best_distance = distance_to_node
 				best = {"node": structure, "cell": Vector2i.ZERO, "world_position": structure.global_position}
-				if is_player_block:
-					found_player_block = true
 			continue
 
 		for cell in cells:
 			var world: Vector2 = _get_cell_center_world(cell)
 			var distance: float = from_world.distance_squared_to(world)
-			if is_player_block and not found_player_block:
-				best = {}
-				best_distance = INF
-				found_player_block = true
 			if distance < best_distance:
 				best_distance = distance
 				best = {"node": structure, "cell": cell, "world_position": world}

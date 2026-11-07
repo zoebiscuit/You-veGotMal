@@ -1,19 +1,90 @@
-[gd_scene load_steps=4 format=3 uid="uid://bq331ebjqgqp6"]
+[gd_scene load_steps=16 format=3 uid="uid://bq331ebjqgqp6"]
 
 [ext_resource type="Script" path="res://Enemies/enemy.gd" id="1_enemy_script"]
+[ext_resource type="Texture2D" path="res://assets/Walk.png" id="2_walk"]
+[ext_resource type="Texture2D" path="res://assets/attack.png" id="3_attack"]
+[ext_resource type="Texture2D" path="res://assets/Hurt.png" id="4_hurt"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy"]
-size = Vector2(24, 24)
+[sub_resource type="AtlasTexture" id="1"]
+atlas = ExtResource("2_walk")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="2"]
+atlas = ExtResource("2_walk")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="3"]
+atlas = ExtResource("3_attack")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="4"]
+atlas = ExtResource("3_attack")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="5"]
+atlas = ExtResource("3_attack")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="6"]
+atlas = ExtResource("3_attack")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="7"]
+atlas = ExtResource("3_attack")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="8"]
+atlas = ExtResource("3_attack")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="9"]
+atlas = ExtResource("4_hurt")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="10"]
+atlas = ExtResource("4_hurt")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="11"]
+atlas = ExtResource("4_hurt")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="12"]
+atlas = ExtResource("4_hurt")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="13"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("3")}, {"duration": 1.0, "texture": SubResource("4")}, {"duration": 1.0, "texture": SubResource("5")}, {"duration": 1.0, "texture": SubResource("6")}, {"duration": 1.0, "texture": SubResource("7")}, {"duration": 1.0, "texture": SubResource("8")}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": SubResource("9")}, {"duration": 1.0, "texture": SubResource("10")}, {"duration": 1.0, "texture": SubResource("11")}, {"duration": 1.0, "texture": SubResource("12")}],
+"loop": false,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{"duration": 1.0, "texture": SubResource("1")}, {"duration": 1.0, "texture": SubResource("2")}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="14"]
+size = Vector2(40, 40)
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_enemy_script")
 collision_layer = 4
 collision_mask = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("13")
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_enemy")
+shape = SubResource("14")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -16.0
