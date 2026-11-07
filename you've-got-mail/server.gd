@@ -9,12 +9,16 @@ signal server_destroyed
 @export var occupied_size_in_cells: Vector2i = Vector2i(5, 5)
 @export var visual_scale_multiplier: float = 1.85
 @export var server_texture: Texture2D = preload("res://assets/server.png")
+@export var health_bar_height: float = 4.0
+@export var health_bar_fade_delay: float = 3.0
+@export var health_bar_fade_duration: float = 0.35
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var collision_shape: CollisionShape2D = $StaticBody2D/CollisionShape2D
 
 var _destroyed_emitted := false
+var _health_bar_fade_tween: Tween = null
 var anchor_cell: Vector2i = Vector2i.ZERO
 var ground_ref: TileMapLayer
 
@@ -114,6 +118,8 @@ func _update_collision_shape() -> void:
 	collision_shape.shape = rectangle
 	$StaticBody2D.collision_layer = 2
 	$StaticBody2D.collision_mask = 1
+	health_bar.custom_minimum_size = Vector2(max(width, 40.0), health_bar_height)
+	health_bar.size = health_bar.custom_minimum_size
 
 func _update_health_bar() -> void:
 	if not is_node_ready():
@@ -130,3 +136,24 @@ func _update_health_bar() -> void:
 		health_bar.modulate = Color(1.0, 0.85, 0.2, 1.0)
 	else:
 		health_bar.modulate = Color(1.0, 0.2, 0.2, 1.0)
+	_show_health_bar_temporarily(current_health < max_health)
+
+func _show_health_bar_temporarily(should_show: bool) -> void:
+	if health_bar == null:
+		return
+	if _health_bar_fade_tween != null and _health_bar_fade_tween.is_valid():
+		_health_bar_fade_tween.kill()
+	if not should_show:
+		health_bar.visible = false
+		return
+	health_bar.visible = true
+	var color := health_bar.modulate
+	color.a = 1.0
+	health_bar.modulate = color
+	_health_bar_fade_tween = create_tween()
+	_health_bar_fade_tween.tween_interval(max(health_bar_fade_delay, 0.0))
+	_health_bar_fade_tween.tween_property(health_bar, "modulate:a", 0.0, max(health_bar_fade_duration, 0.01))
+	_health_bar_fade_tween.tween_callback(func() -> void:
+		if is_instance_valid(health_bar):
+			health_bar.visible = false
+	)

@@ -17,6 +17,9 @@ enum AnimState {
 @export var attack_range_padding: float = 6.0
 @export var hit_flash_color: Color = Color(1.0, 0.2, 0.2, 1.0)
 @export var hit_flash_duration: float = 0.12
+@export var health_bar_height: float = 4.0
+@export var health_bar_fade_delay: float = 3.0
+@export var health_bar_fade_duration: float = 0.35
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -35,6 +38,7 @@ var _anim_state: int = AnimState.WALK
 var _is_attacking_anim := false
 var _is_hurt_anim := false
 var _hit_flash_tween: Tween = null
+var _health_bar_fade_tween: Tween = null
 
 func _ready() -> void:
 	current_health = max_health
@@ -243,7 +247,7 @@ func _configure_visuals() -> void:
 	collision_shape.shape = rect
 	animated_sprite.position = Vector2(0.0, -4.0)
 	animated_sprite.scale = Vector2(1.0, 1.0)
-	health_bar.custom_minimum_size = Vector2(max(enemy_size.x + 8.0, 24.0), 8.0)
+	health_bar.custom_minimum_size = Vector2(max(enemy_size.x + 8.0, 24.0), health_bar_height)
 	health_bar.size = health_bar.custom_minimum_size
 	health_bar.position = Vector2(-health_bar.custom_minimum_size.x * 0.5, -enemy_size.y * 0.5 - 14.0)
 
@@ -252,7 +256,6 @@ func _update_health_bar() -> void:
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 	health_bar.show_percentage = false
-	health_bar.visible = current_health < max_health
 	var ratio := current_health / max_health if max_health > 0.0 else 0.0
 	if ratio > 0.6:
 		health_bar.modulate = Color(0.2, 0.9, 0.2, 1.0)
@@ -260,6 +263,27 @@ func _update_health_bar() -> void:
 		health_bar.modulate = Color(1.0, 0.85, 0.2, 1.0)
 	else:
 		health_bar.modulate = Color(1.0, 0.2, 0.2, 1.0)
+	_show_health_bar_temporarily(current_health < max_health)
+
+func _show_health_bar_temporarily(should_show: bool) -> void:
+	if health_bar == null:
+		return
+	if _health_bar_fade_tween != null and _health_bar_fade_tween.is_valid():
+		_health_bar_fade_tween.kill()
+	if not should_show:
+		health_bar.visible = false
+		return
+	health_bar.visible = true
+	var color := health_bar.modulate
+	color.a = 1.0
+	health_bar.modulate = color
+	_health_bar_fade_tween = create_tween()
+	_health_bar_fade_tween.tween_interval(max(health_bar_fade_delay, 0.0))
+	_health_bar_fade_tween.tween_property(health_bar, "modulate:a", 0.0, max(health_bar_fade_duration, 0.01))
+	_health_bar_fade_tween.tween_callback(func() -> void:
+		if is_instance_valid(health_bar):
+			health_bar.visible = false
+	)
 
 func _play_attack_animation() -> void:
 	_is_attacking_anim = true

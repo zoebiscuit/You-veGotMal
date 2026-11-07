@@ -1,16 +1,22 @@
 extends StaticBody2D
 
 @export var max_health: float = 100.0
-@export var attack_range: float = 180.0
-@export var attack_damage: float = 15.0
+@export var attack_range: float = 260.0
+@export var attack_damage: float = 10.0
 @export var fire_rate: float = 1.5
 @export var projectile_speed: float = 350.0
 @export var projectile_scene: PackedScene = preload("res://Buildings/projectile.tscn")
 @export var body_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 @export var visual_fill_multiplier: float = 2.2
 @export var sprite_offset: Vector2 = Vector2(3.0, 1.0)
+@export var range_indicator_color: Color = Color(0.4, 0.9, 1.0, 0.14)
+@export var range_indicator_outline_color: Color = Color(0.6, 1.0, 1.0, 0.35)
+@export var range_indicator_outline_width: float = 2.0
 @export var shoot_anim_length: float = 1.0
 @export var shoot_anim_frame_interval: float = 0.12
+@export var health_bar_height: float = 4.0
+@export var health_bar_fade_delay: float = 3.0
+@export var health_bar_fade_duration: float = 0.35
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -26,6 +32,7 @@ var current_target: Node = null
 var tower_size: Vector2 = Vector2(24.0, 24.0)
 var _base_sprite_scale: Vector2 = Vector2.ONE
 var _shoot_anim_tween: Tween = null
+var _health_bar_fade_tween: Tween = null
 
 func _ready() -> void:
 	add_to_group("structure_targets")
@@ -59,6 +66,12 @@ func take_damage(amount: float) -> void:
 		if build_system != null and is_instance_valid(build_system):
 			build_system.destroy_block_at_cell(cell)
 
+func heal(amount: float) -> void:
+	if destroyed or amount <= 0.0:
+		return
+	current_health = min(current_health + amount, max_health)
+	_update_health_bar()
+
 func is_structure_alive() -> bool:
 	return not destroyed and current_health > 0.0
 
@@ -91,7 +104,11 @@ func _on_retarget_timer_timeout() -> void:
 		return
 	if destroyed:
 		return
-	current_target = _find_nearest_enemy_in_range()
+	var keep_current_target := false
+	if current_target != null and is_instance_valid(current_target) and not current_target.is_queued_for_deletion():
+		keep_current_target = global_position.distance_squared_to(current_target.global_position) <= attack_range * attack_range
+	if not keep_current_target:
+		current_target = _find_nearest_enemy_in_range()
 	if current_target != null:
 		if fire_timer.is_stopped():
 			fire_timer.start()
@@ -158,9 +175,14 @@ func _configure_visuals() -> void:
 	var rect := RectangleShape2D.new()
 	rect.size = tower_size
 	collision_shape.shape = rect
-	health_bar.custom_minimum_size = Vector2(max(tower_size.x, 24.0), 8.0)
+	health_bar.custom_minimum_size = Vector2(max(tower_size.x, 24.0), health_bar_height)
 	health_bar.size = health_bar.custom_minimum_size
 	health_bar.position = Vector2(-health_bar.custom_minimum_size.x * 0.5, -half.y - 14.0)
+	queue_redraw()
+
+func _draw() -> void:
+	draw_circle(Vector2.ZERO, attack_range, range_indicator_color)
+	draw_arc(Vector2.ZERO, attack_range, 0.0, TAU, 96, range_indicator_outline_color, range_indicator_outline_width, true)
 
 func _play_shoot_animation() -> void:
 	if sprite == null:
@@ -185,4 +207,24 @@ func _update_health_bar() -> void:
 	health_bar.max_value = max_health
 	health_bar.value = current_health
 	health_bar.show_percentage = false
-	health_bar.visible = current_health < max_health
+	_show_health_bar_temporarily(current_health < max_health)
+
+func _show_health_bar_temporarily(should_show: bool) -> void:
+	if health_bar == null:
+		return
+	if _health_bar_fade_tween != null and _health_bar_fade_tween.is_valid():
+		_health_bar_fade_tween.kill()
+	if not should_show:
+		health_bar.visible = false
+		return
+	health_bar.visible = true
+	var color := health_bar.modulate
+	color.a = 1.0
+	health_bar.modulate = color
+	_health_bar_fade_tween = create_tween()
+	_health_bar_fade_tween.tween_interval(max(health_bar_fade_delay, 0.0))
+	_health_bar_fade_tween.tween_property(health_bar, "modulate:a", 0.0, max(health_bar_fade_duration, 0.01))
+	_health_bar_fade_tween.tween_callback(func() -> void:
+		if is_instance_valid(health_bar):
+			health_bar.visible = false
+	)

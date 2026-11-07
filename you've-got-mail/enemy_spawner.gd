@@ -4,15 +4,12 @@ extends Node2D
 @export_node_path("Camera2D") var camera_path: NodePath = ^"../Camera2D"
 @export_node_path("TileMapLayer") var ground_path: NodePath = ^"../Ground"
 @export_node_path("Node2D") var enemies_container_path: NodePath = ^"../Enemies"
-@export var spawn_interval: float = 3.0
-@export var max_enemies: int = 30
 @export var spawn_offset: float = 32.0
 @export var max_spawn_attempts: int = 20
 
 @onready var camera: Camera2D = get_node_or_null(camera_path) as Camera2D
 @onready var ground: TileMapLayer = get_node_or_null(ground_path) as TileMapLayer
 @onready var enemies_container: Node2D = get_node_or_null(enemies_container_path) as Node2D
-@onready var spawn_timer: Timer = $SpawnTimer
 
 var active_enemies: Array[Node] = []
 var level: Node
@@ -20,30 +17,33 @@ var level: Node
 func _ready() -> void:
 	randomize()
 	level = get_parent()
-	spawn_timer.wait_time = max(spawn_interval, 0.1)
-	spawn_timer.one_shot = false
-	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-	spawn_timer.start()
 
-func _on_spawn_timer_timeout() -> void:
-	if Global.gameplay_paused:
-		return
+func spawn_enemy_for_wave(stat_overrides: Dictionary = {}) -> Node:
 	_cleanup_enemy_list()
 	if enemy_scene == null or camera == null or ground == null or enemies_container == null:
-		return
-	if active_enemies.size() >= max_enemies:
-		return
+		return null
 	var spawn_result := _find_spawn_position()
 	if not spawn_result.get("success", false):
-		return
+		return null
 	var enemy := enemy_scene.instantiate()
 	if enemy == null:
-		return
+		return null
+	_apply_enemy_stats(enemy, stat_overrides)
 	enemies_container.add_child(enemy)
 	enemy.global_position = spawn_result.get("position", Vector2.ZERO)
 	if enemy.has_signal("died"):
 		enemy.died.connect(_on_enemy_died)
 	active_enemies.append(enemy)
+	return enemy
+
+func _apply_enemy_stats(enemy: Node, stat_overrides: Dictionary) -> void:
+	if enemy == null:
+		return
+	if stat_overrides.has("max_health"):
+		enemy.max_health = float(stat_overrides["max_health"])
+		enemy.current_health = enemy.max_health
+	if stat_overrides.has("attack_damage"):
+		enemy.attack_damage = float(stat_overrides["attack_damage"])
 
 func _on_enemy_died(enemy: Node) -> void:
 	active_enemies.erase(enemy)

@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="4_ned08"]
 [ext_resource type="Script" path="res://enemy_spawner.gd" id="5_enemy_spawner"]
 [ext_resource type="PackedScene" uid="uid://n5s0008v6wmi" path="res://crypto_tracker.tscn" id="6_crypto_tracker"]
+[ext_resource type="Script" path="res://wave_manager.gd" id="7_wave_manager"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_84ke3"]
 texture = ExtResource("1_v0bqk")
@@ -53,9 +54,46 @@ script = ExtResource("3_build")
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1254184536]
 script = ExtResource("5_enemy_spawner")
 
-[node name="SpawnTimer" type="Timer" parent="EnemySpawner" unique_id=726653125]
+[node name="WaveManager" type="Node" parent="." unique_id=2000000003]
+script = ExtResource("7_wave_manager")
 
 [node name="BuildModeUI" type="CanvasLayer" parent="." unique_id=1701032887]
+
+[node name="WaveLabel" type="Label" parent="BuildModeUI" unique_id=2000000001]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 10.0
+offset_right = 160.0
+offset_bottom = 38.0
+theme_override_fonts/font = ExtResource("4_ned08")
+theme_override_font_sizes/font_size = 18
+text = "Wave 1"
+horizontal_alignment = 1
+
+[node name="WaveProgressBar" type="ProgressBar" parent="BuildModeUI" unique_id=2000000004]
+visible = false
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -130.0
+offset_top = 42.0
+offset_right = 130.0
+offset_bottom = 58.0
+show_percentage = false
+
+[node name="StartWaveButton" type="Button" parent="BuildModeUI" unique_id=2000000002]
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -110.0
+offset_top = 62.0
+offset_right = 110.0
+offset_bottom = 98.0
+theme_override_fonts/font = ExtResource("4_ned08")
+theme_override_font_sizes/font_size = 16
+text = "Start Wave 1"
 
 [node name="BuildModeButton" type="Button" parent="BuildModeUI" unique_id=1647117674]
 modulate = Color(1, 0.95, 0.95, 1)
