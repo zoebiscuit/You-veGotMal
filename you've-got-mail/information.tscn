@@ -1,11 +1,13 @@
-[gd_scene format=3 uid="uid://uqy7liojbdht"]
+[gd_scene load_steps=5 format=3 uid="uid://uqy7liojbdht"]
 
+[ext_resource type="Script" path="res://information.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bftmxddejhitf" path="res://assets/Untitled design(23).png" id="1_oip44"]
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="2_jaie5"]
 [ext_resource type="Texture2D" uid="uid://c0axvhxfl0ad5" path="res://assets/Idle.png" id="3_k51pg"]
 [ext_resource type="Texture2D" uid="uid://7oxdlprlhsfn" path="res://assets/antivirus.png" id="4_v40gd"]
 
-[node name="information" type="Node2D" unique_id=419364002]
+[node name="information" type="CanvasLayer" unique_id=419364002]
+script = ExtResource("1_script")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=212309950]
 offset_right = 1920.0

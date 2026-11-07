@@ -6,7 +6,8 @@
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="4_ned08"]
 [ext_resource type="Script" uid="uid://cft1fc8aghryt" path="res://enemy_spawner.gd" id="5_enemy_spawner"]
 [ext_resource type="PackedScene" uid="uid://n5s0008v6wmi" path="res://crypto_tracker.tscn" id="6_crypto_tracker"]
-[ext_resource type="Script" path="res://wave_manager.gd" id="7_wave_manager"]
+[ext_resource type="Script" uid="uid://danm0vlqko7ta" path="res://wave_manager.gd" id="7_wave_manager"]
+[ext_resource type="Script" path="res://email_event_manager.gd" id="8_email_manager"]
 [ext_resource type="Texture2D" uid="uid://b17rty1k5kdp1" path="res://assets/computer(2).png" id="8_pf0ge"]
 [ext_resource type="Script" uid="uid://cb46aoror22x6" path="res://computer.gd" id="9_4hap0"]
 [ext_resource type="Texture2D" uid="uid://dgha2k381mky0" path="res://assets/mail.png" id="10_0p8tw"]
@@ -60,6 +61,9 @@ script = ExtResource("5_enemy_spawner")
 
 [node name="WaveManager" type="Node" parent="." unique_id=2000000003]
 script = ExtResource("7_wave_manager")
+
+[node name="EmailEventManager" type="Node" parent="." unique_id=2000000005]
+script = ExtResource("8_email_manager")
 
 [node name="BuildModeUI" type="CanvasLayer" parent="." unique_id=1701032887]
 
@@ -178,18 +182,18 @@ offset_bottom = 60.0
 
 [node name="Computer" type="TextureButton" parent="." unique_id=183942433]
 offset_left = 1022.0
-offset_top = 95.0
+offset_top = 110.0
 offset_right = 1086.0
-offset_bottom = 159.0
+offset_bottom = 174.0
 scale = Vector2(1.7582364, 1.7339572)
 texture_normal = ExtResource("8_pf0ge")
 script = ExtResource("9_4hap0")
 
 [node name="Mailbox" type="TextureButton" parent="." unique_id=1503581726]
-offset_left = 898.00006
-offset_top = 92.0
-offset_right = 962.00006
-offset_bottom = 156.0
+offset_left = 892.0
+offset_top = 104.0
+offset_right = 956.0
+offset_bottom = 168.0
 scale = Vector2(2.075999, 2.0681558)
 texture_normal = ExtResource("10_0p8tw")
 script = ExtResource("11_oqwd7")

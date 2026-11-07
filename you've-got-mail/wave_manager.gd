@@ -12,6 +12,7 @@ enum WaveState {
 }
 
 @export_node_path("Node") var enemy_spawner_path: NodePath = ^"../EnemySpawner"
+@export_node_path("Node") var email_event_manager_path: NodePath = ^"../EmailEventManager"
 @export_node_path("Button") var start_wave_button_path: NodePath = ^"../BuildModeUI/StartWaveButton"
 @export_node_path("Label") var wave_label_path: NodePath = ^"../BuildModeUI/WaveLabel"
 @export_node_path("ProgressBar") var wave_progress_bar_path: NodePath = ^"../BuildModeUI/WaveProgressBar"
@@ -24,6 +25,7 @@ enum WaveState {
 @export var base_enemy_damage: float = 10.0
 
 @onready var enemy_spawner: Node = get_node_or_null(enemy_spawner_path)
+@onready var email_event_manager: Node = get_node_or_null(email_event_manager_path)
 @onready var start_wave_button: Button = get_node_or_null(start_wave_button_path)
 @onready var wave_label: Label = get_node_or_null(wave_label_path)
 @onready var wave_progress_bar: ProgressBar = get_node_or_null(wave_progress_bar_path)
@@ -41,6 +43,8 @@ func _ready() -> void:
 	Global.GlobalWaves = current_wave
 	if start_wave_button != null and not start_wave_button.pressed.is_connected(_on_start_wave_pressed):
 		start_wave_button.pressed.connect(_on_start_wave_pressed)
+	if email_event_manager != null and email_event_manager.has_signal("email_event_finished") and not email_event_manager.email_event_finished.is_connected(_on_email_event_finished):
+		email_event_manager.email_event_finished.connect(_on_email_event_finished)
 	_update_ui()
 
 func _on_start_wave_pressed() -> void:
@@ -154,11 +158,12 @@ func _check_wave_completion() -> void:
 	Global.GlobalWaves = current_wave
 	if start_wave_button != null:
 		start_wave_button.text = "Start Wave %d" % current_wave
-		start_wave_button.visible = true
-	emit_signal("wave_cleared", current_wave)
+		start_wave_button.visible = false
 	_update_ui()
-	state = WaveState.WAITING
-	_update_ui()
+	if email_event_manager != null and email_event_manager.has_method("show_random_email_event"):
+		email_event_manager.show_random_email_event()
+	else:
+		_on_email_event_finished()
 
 func _heal_all_structures_after_wave() -> void:
 	var level := get_parent()
@@ -186,13 +191,24 @@ func _heal_all_structures_after_wave() -> void:
 			if structure.has_method("_update_health_bar"):
 				structure.call("_update_health_bar")
 
+func _on_email_event_finished() -> void:
+	if start_wave_button != null:
+		start_wave_button.text = "Start Wave %d" % current_wave
+		start_wave_button.visible = true
+	emit_signal("wave_cleared", current_wave)
+	state = WaveState.WAITING
+	_update_ui()
+
 func _update_ui() -> void:
 	var enemies_remaining: int = max(0, (_enemies_to_spawn - _enemies_spawned) + _get_active_enemy_count()) if state == WaveState.SPAWNING else _get_active_enemy_count()
 	var total_wave_enemies: int = max(_enemies_to_spawn, get_enemy_count_for_wave(current_wave))
 	var enemies_cleared: int = max(0, total_wave_enemies - enemies_remaining) if state == WaveState.SPAWNING or state == WaveState.IN_PROGRESS else 0
 	if start_wave_button != null:
 		start_wave_button.text = "Start Wave %d" % current_wave
-		start_wave_button.visible = state == WaveState.WAITING or state == WaveState.CLEARED
+		if email_event_manager != null and email_event_manager.get("_awaiting_response"):
+			start_wave_button.visible = false
+		else:
+			start_wave_button.visible = state == WaveState.WAITING or state == WaveState.CLEARED
 	if wave_label != null:
 		wave_label.text = "Wave %d" % current_wave
 	if wave_progress_bar != null:

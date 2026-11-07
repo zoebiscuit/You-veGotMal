@@ -1,15 +1,16 @@
 extends TextureButton
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+@export var information_scene: PackedScene = preload("res://information.tscn")
 
 func _on_pressed() -> void:
-	get_tree().change_scene_to_file("res://information.tscn") # Replace with function body.
+	if information_scene == null:
+		return
+	var root := get_tree().current_scene
+	if root == null:
+		return
+	if root.get_node_or_null("information") != null:
+		return
+	var info_instance := information_scene.instantiate()
+	if info_instance == null:
+		return
+	root.add_child(info_instance)
