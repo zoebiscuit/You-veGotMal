@@ -13,6 +13,7 @@ var occupied_cells: Dictionary = {}
 var hovered_cell: Vector2i
 var has_hovered_cell := false
 var used_rect: Rect2i
+var reserved_cells: Dictionary = {}
 
 @onready var ground: TileMapLayer = get_node(ground_path) as TileMapLayer
 @onready var build_button: Button = get_node_or_null(build_button_path) as Button
@@ -26,6 +27,7 @@ func _ready() -> void:
 
 	used_rect = ground.get_used_rect()
 	z_index = max(ground.z_index + 1, 1)
+	_refresh_reserved_cells()
 	set_process(true)
 	set_process_unhandled_input(true)
 	_update_button_visuals()
@@ -96,7 +98,6 @@ func _draw_grid() -> void:
 	if used_rect.size.x <= 0 or used_rect.size.y <= 0:
 		return
 
-	var top_left := _cell_top_left(used_rect.position)
 	var bottom_right_cell := used_rect.position + used_rect.size
 	var bottom_right := _cell_top_left(bottom_right_cell)
 
@@ -120,7 +121,14 @@ func _get_cell_under_mouse() -> Vector2i:
 	return ground.local_to_map(mouse_in_ground)
 
 func _is_cell_buildable(cell: Vector2i) -> bool:
-	return used_rect.has_point(cell)
+	return used_rect.has_point(cell) and not reserved_cells.has(cell)
+
+func _refresh_reserved_cells() -> void:
+	reserved_cells.clear()
+	var level := get_parent()
+	if level != null and level.has_method("get_server_occupied_cells"):
+		for cell in level.get_server_occupied_cells():
+			reserved_cells[cell] = true
 
 func _cell_top_left(cell: Vector2i) -> Vector2:
 	var local_center := ground.map_to_local(cell)

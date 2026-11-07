@@ -1,7 +1,8 @@
 [gd_scene format=4 uid="uid://dbxva2gnowo80"]
 
 [ext_resource type="Texture2D" uid="uid://xqq5k7c70dm7" path="res://assets/Grass_Tile_map.png" id="1_v0bqk"]
-[ext_resource type="Script" uid="uid://c8sdw1dgs8cbv" path="res://build_system.gd" id="2_84ke3"]
+[ext_resource type="Script" uid="uid://d34tqux7kxnb5" path="res://new_game_level.gd" id="2_level"]
+[ext_resource type="Script" uid="uid://c8sdw1dgs8cbv" path="res://build_system.gd" id="3_build"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_84ke3"]
 texture = ExtResource("1_v0bqk")
@@ -32,6 +33,7 @@ tile_size = Vector2i(256, 256)
 sources/0 = SubResource("TileSetAtlasSource_84ke3")
 
 [node name="Level1" type="Node2D" unique_id=1265688403]
+script = ExtResource("2_level")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=1325527279]
 position = Vector2(0.99999994, 0)
@@ -41,7 +43,7 @@ tile_set = SubResource("TileSet_rnujv")
 metadata/_edit_group_ = true
 
 [node name="BuildSystem" type="Node2D" parent="." unique_id=927113022]
-script = ExtResource("2_84ke3")
+script = ExtResource("3_build")
 
 [node name="BuildModeUI" type="CanvasLayer" parent="." unique_id=590369189]
 
@@ -57,5 +59,7 @@ offset_right = 110.0
 offset_bottom = -20.0
 toggle_mode = true
 text = "Build Mode"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=972562185]
 
 [connection signal="pressed" from="BuildModeUI/BuildModeButton" to="BuildSystem" method="toggle_build_mode"]
