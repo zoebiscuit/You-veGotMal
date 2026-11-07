@@ -19,7 +19,7 @@ offset_bottom = 678.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("2_eopfh")
 theme_override_font_sizes/normal_font_size = 30
-text = "Fron: charlie@yahood.com
+text = "From: charlie@yahood.com
 
 I need you to verify some orders for me. Please login with your google account in less than 24hrs, or else we might get the whole order wrong.
 ama.zon/com/verify-ABC"

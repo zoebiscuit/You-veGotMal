@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://cft1fc8aghryt" path="res://enemy_spawner.gd" id="5_enemy_spawner"]
 [ext_resource type="PackedScene" uid="uid://n5s0008v6wmi" path="res://crypto_tracker.tscn" id="6_crypto_tracker"]
 [ext_resource type="Script" uid="uid://danm0vlqko7ta" path="res://wave_manager.gd" id="7_wave_manager"]
+[ext_resource type="Texture2D" uid="uid://7vx01liyc6wb" path="res://assets/Firewall.png" id="8_0p8tw"]
 [ext_resource type="Script" path="res://email_event_manager.gd" id="8_email_manager"]
 [ext_resource type="Texture2D" uid="uid://b17rty1k5kdp1" path="res://assets/computer(2).png" id="8_pf0ge"]
 [ext_resource type="Script" uid="uid://cb46aoror22x6" path="res://computer.gd" id="9_4hap0"]
@@ -41,6 +42,9 @@ texture_region_size = Vector2i(256, 256)
 tile_size = Vector2i(256, 256)
 sources/0 = SubResource("TileSetAtlasSource_84ke3")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_oqwd7"]
+load_path = "res://.godot/imported/antivirus.png-18d9faf22f3eca8a7f8e6d3d3cec1210.ctex"
+
 [node name="Level1" type="Node2D" unique_id=1265688403]
 script = ExtResource("2_level")
 
@@ -53,6 +57,8 @@ metadata/_edit_group_ = true
 
 [node name="BuildSystem" type="Node2D" parent="." unique_id=927113022]
 script = ExtResource("3_build")
+firewall_button_path = NodePath("../BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/VBoxContainer/FirewallButton")
+antivirus_button_path = NodePath("../BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/VBoxContainer/AntivirusButton")
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1590626155]
 
@@ -120,11 +126,9 @@ toggle_mode = true
 text = "Build Mode"
 
 [node name="SelectionPanel" type="Panel" parent="BuildModeUI" unique_id=1370133870]
-visible = false
-offset_left = 18.0
-offset_top = 18.0
-offset_right = 338.0
-offset_bottom = 158.0
+offset_left = -4.0
+offset_right = 423.0
+offset_bottom = 236.0
 
 [node name="PanelMargin" type="MarginContainer" parent="BuildModeUI/SelectionPanel" unique_id=1848378309]
 layout_mode = 0
@@ -142,35 +146,35 @@ theme_override_constants/separation = 10
 [node name="TitleLabel" type="Label" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox" unique_id=1604081558]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_ned08")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 12
 text = "Select Building"
 horizontal_alignment = 1
-
-[node name="BuildingSelector" type="HBoxContainer" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox" unique_id=1309902224]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 12
-
-[node name="FirewallButton" type="Button" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector" unique_id=1510030817]
-modulate = Color(1, 0.85, 0.85, 1)
-custom_minimum_size = Vector2(135, 52)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_ned08")
-theme_override_font_sizes/font_size = 16
-text = "Firewall"
-
-[node name="AntivirusButton" type="Button" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/BuildingSelector" unique_id=525703473]
-modulate = Color(0.9, 0.95, 1, 1)
-custom_minimum_size = Vector2(135, 52)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_ned08")
-theme_override_font_sizes/font_size = 16
-text = "Antivirus"
 
 [node name="HintLabel" type="Label" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox" unique_id=465558148]
 layout_mode = 2
 text = "Red = Firewall  |  White = Antivirus"
 horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox" unique_id=523766700]
+layout_mode = 2
+
+[node name="FirewallButton" type="Button" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/VBoxContainer" unique_id=1510030817]
+modulate = Color(1, 0.85, 0.85, 1)
+custom_minimum_size = Vector2(135, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_ned08")
+theme_override_font_sizes/font_size = 12
+text = "Firewall"
+icon = ExtResource("8_0p8tw")
+
+[node name="AntivirusButton" type="Button" parent="BuildModeUI/SelectionPanel/PanelMargin/PanelVBox/VBoxContainer" unique_id=525703473]
+modulate = Color(0.9, 0.95, 1, 1)
+custom_minimum_size = Vector2(135, 52)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_ned08")
+theme_override_font_sizes/font_size = 12
+text = "Antivirus"
+icon = SubResource("CompressedTexture2D_oqwd7")
 
 [node name="CryptoTracker" parent="BuildModeUI" unique_id=1769862717 instance=ExtResource("6_crypto_tracker")]
 offset_left = -260.0
@@ -190,6 +194,7 @@ texture_normal = ExtResource("8_pf0ge")
 script = ExtResource("9_4hap0")
 
 [node name="Mailbox" type="TextureButton" parent="." unique_id=1503581726]
+visible = false
 offset_left = 892.0
 offset_top = 104.0
 offset_right = 956.0
