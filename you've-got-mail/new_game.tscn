@@ -1,8 +1,8 @@
 [gd_scene format=4 uid="uid://dbxva2gnowo80"]
 
 [ext_resource type="Texture2D" uid="uid://xqq5k7c70dm7" path="res://assets/Grass_Tile_map.png" id="1_v0bqk"]
-[ext_resource type="Script" uid="uid://d34tqux7kxnb5" path="res://new_game_level.gd" id="2_level"]
-[ext_resource type="Script" uid="uid://c8sdw1dgs8cbv" path="res://build_system.gd" id="3_build"]
+[ext_resource type="Script" path="res://new_game_level.gd" id="2_level"]
+[ext_resource type="Script" path="res://build_system.gd" id="3_build"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_84ke3"]
 texture = ExtResource("1_v0bqk")
