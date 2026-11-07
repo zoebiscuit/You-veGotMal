@@ -188,8 +188,8 @@ func _get_attack_position_for_target(target: Node, target_cell: Vector2i) -> Vec
 
 func _get_attack_distance_for_target(target: Node) -> float:
 	var own_radius: float = max(enemy_size.x, enemy_size.y) * 0.5
-	if target != null and target.has_method("get_attack_radius"):
-		return own_radius + float(target.get_attack_radius()) + attack_range_padding
+	if target != null and target.has_method("get_closest_attack_point"):
+		return own_radius + attack_range_padding
 	return own_radius + attack_range_padding
 
 func _resolve_structure_from_collider(collider: Object) -> Node:

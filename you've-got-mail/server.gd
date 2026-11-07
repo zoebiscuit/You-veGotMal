@@ -6,8 +6,8 @@ signal server_destroyed
 @export var height: float = 82.944
 @export var max_health: float = 100.0
 @export var current_health: float = 100.0
-@export var occupied_size_in_cells: Vector2i = Vector2i(3, 3)
-@export var visual_scale_multiplier: float = 1.35
+@export var occupied_size_in_cells: Vector2i = Vector2i(5, 5)
+@export var visual_scale_multiplier: float = 1.85
 @export var server_texture: Texture2D = preload("res://assets/server.png")
 
 @onready var sprite: Sprite2D = $Sprite2D

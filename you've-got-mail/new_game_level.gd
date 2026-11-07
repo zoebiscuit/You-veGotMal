@@ -4,6 +4,8 @@ extends Node2D
 @export_node_path("Camera2D") var camera_path: NodePath = ^"Camera2D"
 @export_node_path("Node2D") var build_system_path: NodePath = ^"BuildSystem"
 @export var server_scene: PackedScene = preload("res://server.tscn")
+@export var server_footprint_cells: Vector2i = Vector2i(5, 5)
+@export var server_position_offset: Vector2 = Vector2(0.0, 24.0)
 
 @onready var ground: TileMapLayer = get_node(ground_path) as TileMapLayer
 @onready var camera: Camera2D = get_node_or_null(camera_path) as Camera2D
@@ -131,18 +133,18 @@ func _spawn_server() -> void:
 		return
 	add_child(server_instance)
 	server_anchor_cell = _get_map_center_anchor_cell()
-	server_instance.global_position = _get_footprint_center_world(server_anchor_cell, Vector2i(3, 3))
+	server_instance.global_position = _get_footprint_center_world(server_anchor_cell, server_footprint_cells) + server_position_offset
 	if server_instance.has_method("set_footprint_size"):
-		server_instance.set_footprint_size(_get_cell_world_size() * Vector2(3, 3))
+		server_instance.set_footprint_size(_get_cell_world_size() * Vector2(server_footprint_cells))
 	if server_instance.has_method("set_anchor_cell"):
 		server_instance.set_anchor_cell(server_anchor_cell)
 	if server_instance.has_method("set_ground_ref"):
 		server_instance.set_ground_ref(ground)
 
 func _center_camera_on_server() -> void:
-	if camera == null or server_instance == null:
+	if camera == null:
 		return
-	camera.global_position = server_instance.global_position
+	camera.global_position = _get_footprint_center_world(server_anchor_cell, server_footprint_cells)
 	camera.make_current()
 	camera.reset_smoothing()
 	camera.force_update_scroll()
