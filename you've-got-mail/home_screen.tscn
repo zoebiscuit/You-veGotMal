@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bhsy2wgutklk6"]
 
-[ext_resource type="Texture2D" uid="uid://b6snonorb5mo0" path="res://assets/20261106_222759_0000.png" id="1_fm0op"]
+[ext_resource type="Texture2D" uid="uid://dfr2hu0tvb8oy" path="res://assets/Youve got mail_20261106_225945_0000.png" id="1_fm0op"]
 [ext_resource type="Texture2D" uid="uid://bw7uuq74fmcmn" path="res://assets/you've got mail (20261106100844).png" id="2_xe7vm"]
 [ext_resource type="FontFile" uid="uid://bptxx8dp13ssw" path="res://daydream_3/Daydream DEMO.otf" id="3_gf7oa"]
 [ext_resource type="Script" uid="uid://glvryhpr2mo5" path="res://start_game.gd" id="4_vivg1"]
